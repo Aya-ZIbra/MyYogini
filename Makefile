@@ -10,6 +10,8 @@ OPENVINO_FLAGS=-I$(INTEL_CVSDK_DIR)/deployment_tools/inference_engine/include \
 
 
 all: human_pose_estimation_demo
+clean: 
+	rm -f *.o human_pose_estimation_demo
 
 
 human_pose_estimation_demo: main.cpp human_pose.cpp human_pose_estimator.cpp render_human_pose.cpp peak.cpp scale_human_pose.cpp
