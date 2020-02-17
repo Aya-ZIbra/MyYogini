@@ -21,6 +21,7 @@
 
 using namespace InferenceEngine;
 using namespace human_pose_estimation;
+using namespace std; 
 
 bool ParseAndCheckCommandLine(int argc, char* argv[]) {
     // ---------------------------Parsing and validation of input args--------------------------------------
@@ -37,6 +38,10 @@ bool ParseAndCheckCommandLine(int argc, char* argv[]) {
     if (FLAGS_i.empty()) {
         throw std::logic_error("Parameter -i is not set");
     }
+	
+	 if (FLAGS_c.empty()) {
+        throw std::logic_error("Parameter -c is not set");
+    }
 
     if (FLAGS_m.empty()) {
         throw std::logic_error("Parameter -m is not set");
@@ -48,6 +53,7 @@ bool ParseAndCheckCommandLine(int argc, char* argv[]) {
 int main(int argc, char* argv[]) {
     try {
         std::cout << "InferenceEngine: " << GetInferenceEngineVersion() << std::endl;
+		cout << FLAGS_c << endl;
 
         // ------------------------------ Parsing and validation of input args ---------------------------------
         if (!ParseAndCheckCommandLine(argc, argv)) {
@@ -56,6 +62,7 @@ int main(int argc, char* argv[]) {
 
         HumanPoseEstimator estimator(FLAGS_m, FLAGS_d, FLAGS_pc);
         std::cout <<FLAGS_i<< std::endl;
+		
         cv::VideoCapture cap;
         if (!(FLAGS_i == "cam" ? cap.open(0) : cap.open(FLAGS_i))) {
             throw std::logic_error("Cannot open input file or camera: " + FLAGS_i);
@@ -88,7 +95,8 @@ int main(int argc, char* argv[]) {
         
         cv::Mat image_ref;
         cv::VideoCapture cap_ref;
-        cap_ref.open("./from_Chris/AI-Yogini-Project/GoodWarrior1.jpg");
+        // cap_ref.open("./from_Chris/AI-Yogini-Project/GoodWarrior1flipped.jpg");
+		cap_ref.open(FLAGS_c);
         cap_ref.read(image_ref);
         estimator.estimate(image_ref);
         //image_ref = cv::imread("~/pose_src/from_Chris/AI-Yogini-Project/GoodWarrior1.jpg", 1); //IMREAD_COLOR );

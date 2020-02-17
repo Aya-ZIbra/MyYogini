@@ -12,7 +12,7 @@ static const char help_message[] = "Print a usage message.";
 
 /// @brief Message for video argument
 static const char video_message[] = "Required. Path to a video. Default value is \"cam\" to work with camera.";
-
+static const char compare_message[] = "Required. Path to a photo to compare to. ";
 /// @brief Message for model argument
 static const char human_pose_estimation_model_message[] = "Required. Path to the Human Pose Estimation model (.xml) file.";
 
@@ -37,6 +37,10 @@ DEFINE_bool(h, false, help_message);
 /// @brief Defines parameter for setting video file <br>
 /// It is a required parameter
 DEFINE_string(i, "cam", video_message);
+
+/// @brief Defines parameter for setting video file <br> to compare to
+/// It is a required parameter
+DEFINE_string(c, "./from_Chris/AI-Yogini-Project/GoodWarrior1flipped.jpg", video_message);
 
 /// @brief Defines parameter for human pose estimation model file <br>
 /// It is a required parameter
@@ -72,6 +76,7 @@ static void showUsage() {
     std::cout << std::endl;
     std::cout << "    -h                         " << help_message << std::endl;
     std::cout << "    -i \"<path>\"                " << video_message << std::endl;
+	std::cout << "    -c \"<path>\"                " << compare_message << std::endl;
     std::cout << "    -m \"<path>\"                " << human_pose_estimation_model_message << std::endl;
     std::cout << "    -d \"<device>\"              " << target_device_message << std::endl;
     std::cout << "    -pc                        " << performance_counter_message << std::endl;
