@@ -88,7 +88,7 @@ int main(int argc, char* argv[]) {
         
         cv::Mat image_ref;
         cv::VideoCapture cap_ref;
-        cap_ref.open("/home/u37265/pose_src/from_Chris/AI-Yogini-Project/GoodWarrior1.jpg");
+        cap_ref.open("./from_Chris/AI-Yogini-Project/GoodWarrior1.jpg");
         cap_ref.read(image_ref);
         estimator.estimate(image_ref);
         //image_ref = cv::imread("~/pose_src/from_Chris/AI-Yogini-Project/GoodWarrior1.jpg", 1); //IMREAD_COLOR );
