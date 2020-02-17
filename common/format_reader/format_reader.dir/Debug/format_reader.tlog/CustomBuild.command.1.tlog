@@ -1,0 +1,10 @@
+^D:\MY SOFTWARES\PROGRAM FILES (X86)\INTELSWTOOLS\OPENVINO_2019.3.379\DEPLOYMENT_TOOLS\INFERENCE_ENGINE\DEMOS\COMMON\FORMAT_READER\CMAKELISTS.TXT
+setlocal
+"D:\My Softwares\Program Files\CMake\bin\cmake.exe" "-SD:/My Softwares/Program Files (x86)/IntelSWTools/openvino_2019.3.379/deployment_tools/inference_engine/demos" "-BD:/My Softwares/Program Files (x86)/IntelSWTools/openvino_2019.3.379/deployment_tools/inference_engine/demos" --check-stamp-file "D:/My Softwares/Program Files (x86)/IntelSWTools/openvino_2019.3.379/deployment_tools/inference_engine/demos/common/format_reader/CMakeFiles/generate.stamp"
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd

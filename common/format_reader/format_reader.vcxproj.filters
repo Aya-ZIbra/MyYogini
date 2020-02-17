@@ -1,0 +1,48 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="16.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="D:\MyData\Intel Edge AI Scholarship Challenge\Personal Gym Trainer\human_pose_estimation\common\format_reader\MnistUbyte.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\MyData\Intel Edge AI Scholarship Challenge\Personal Gym Trainer\human_pose_estimation\common\format_reader\bmp.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\MyData\Intel Edge AI Scholarship Challenge\Personal Gym Trainer\human_pose_estimation\common\format_reader\format_reader.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\MyData\Intel Edge AI Scholarship Challenge\Personal Gym Trainer\human_pose_estimation\common\format_reader\opencv_wraper.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="D:\MyData\Intel Edge AI Scholarship Challenge\Personal Gym Trainer\human_pose_estimation\common\format_reader\MnistUbyte.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\MyData\Intel Edge AI Scholarship Challenge\Personal Gym Trainer\human_pose_estimation\common\format_reader\bmp.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\MyData\Intel Edge AI Scholarship Challenge\Personal Gym Trainer\human_pose_estimation\common\format_reader\format_reader.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\MyData\Intel Edge AI Scholarship Challenge\Personal Gym Trainer\human_pose_estimation\common\format_reader\format_reader_ptr.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\MyData\Intel Edge AI Scholarship Challenge\Personal Gym Trainer\human_pose_estimation\common\format_reader\opencv_wraper.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\MyData\Intel Edge AI Scholarship Challenge\Personal Gym Trainer\human_pose_estimation\common\format_reader\register.h">
+      <Filter>include</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="D:\MyData\Intel Edge AI Scholarship Challenge\Personal Gym Trainer\human_pose_estimation\common\format_reader\CMakeLists.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{60AAD1CA-35AD-35FF-AEE8-71195A27AD25}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="include">
+      <UniqueIdentifier>{CD96731D-2235-3BF1-836B-A94A408E713C}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>
