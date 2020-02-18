@@ -1,0 +1,9 @@
+﻿  Building Custom Rule D:/My Softwares/Program Files (x86)/IntelSWTools/openvino_2019.3.379/deployment_tools/inference_engine/demos/human_pose_estimation_demo/CMakeLists.txt
+  CMake does not need to re-run because D:/My Softwares/Program Files (x86)/IntelSWTools/openvino_2019.3.379/deployment_tools/inference_engine/demos/human_pose_estimation_demo/CMakeFiles/generate.stamp is up-to-date.
+  main.cpp
+  human_pose.cpp
+  human_pose_estimator.cpp
+  peak.cpp
+  render_human_pose.cpp
+  Generating Code...
+  human_pose_estimation_demo.vcxproj -> D:\My Softwares\Program Files (x86)\IntelSWTools\openvino_2019.3.379\deployment_tools\inference_engine\demos\intel64\Debug\human_pose_estimation_demo.exe

@@ -1,0 +1,9 @@
+﻿  Building Custom Rule D:/My Softwares/Program Files (x86)/IntelSWTools/openvino_2019.3.379/deployment_tools/inference_engine/demos/common/format_reader/CMakeLists.txt
+  CMake does not need to re-run because D:/My Softwares/Program Files (x86)/IntelSWTools/openvino_2019.3.379/deployment_tools/inference_engine/demos/common/format_reader/CMakeFiles/generate.stamp is up-to-date.
+  MnistUbyte.cpp
+  bmp.cpp
+  format_reader.cpp
+  opencv_wraper.cpp
+  Generating Code...
+     Creating library D:/My Softwares/Program Files (x86)/IntelSWTools/openvino_2019.3.379/deployment_tools/inference_engine/demos/intel64/Debug/format_reader.lib and object D:/My Softwares/Program Files (x86)/IntelSWTools/openvino_2019.3.379/deployment_tools/inference_engine/demos/intel64/Debug/format_reader.exp
+  format_reader.vcxproj -> D:\My Softwares\Program Files (x86)\IntelSWTools\openvino_2019.3.379\deployment_tools\inference_engine\demos\intel64\Debug\format_reader.dll

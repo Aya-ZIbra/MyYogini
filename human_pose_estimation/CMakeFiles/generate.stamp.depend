@@ -1,0 +1,9 @@
+# CMake generation dependency list for this directory.
+D:/My Softwares/Program Files (x86)/IntelSWTools/openvino_2019.3.379/opencv/cmake/OpenCVConfig-version.cmake
+D:/My Softwares/Program Files (x86)/IntelSWTools/openvino_2019.3.379/opencv/cmake/OpenCVConfig.cmake
+D:/My Softwares/Program Files (x86)/IntelSWTools/openvino_2019.3.379/opencv/cmake/OpenCVModules-debug.cmake
+D:/My Softwares/Program Files (x86)/IntelSWTools/openvino_2019.3.379/opencv/cmake/OpenCVModules-release.cmake
+D:/My Softwares/Program Files (x86)/IntelSWTools/openvino_2019.3.379/opencv/cmake/OpenCVModules.cmake
+D:/My Softwares/Program Files/CMake/share/cmake-3.14/Modules/FindPackageHandleStandardArgs.cmake
+D:/My Softwares/Program Files/CMake/share/cmake-3.14/Modules/FindPackageMessage.cmake
+D:/MyData/Intel Edge AI Scholarship Challenge/Personal Gym Trainer/human_pose_estimation/human_pose_estimation_demo/CMakeLists.txt
