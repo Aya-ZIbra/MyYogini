@@ -134,8 +134,8 @@ cmake -E make_directory "%SOLUTION_DIR64%" && cd "%SOLUTION_DIR64%" && cmake -G 
 echo.
 echo ###############^|^| Build Inference Engine Demos using MS Visual Studio (MSBuild.exe) ^|^|###############
 echo.
-echo "!MSBUILD_BIN!" HumanPoseEstimation.sln /p:Configuration=Release
-"!MSBUILD_BIN!" HumanPoseEstimation.sln /p:Configuration=Release
+echo "!MSBUILD_BIN!" MyYogini.sln /p:Configuration=Release
+"!MSBUILD_BIN!" MyYogini.sln /p:Configuration=Release
 if ERRORLEVEL 1 GOTO errorHandling
 
 echo Done.

@@ -1,33 +1,31 @@
-# Human Pose Estimation C++ Demo
+# MyYogini
 
-This demo showcases the work of multi-person 2D pose estimation algorithm. The task is to predict a pose: body skeleton, which consists of keypoints and connections between them, for every person in an input video. The pose may contain up to 18 keypoints: *ears, eyes, nose, neck, shoulders, elbows, wrists, hips, knees*, and *ankles*. Some of potential use cases of the algorithm are action recognition and behavior understanding. You can use the following pre-trained model with the demo:
+An Edge Application which will evaluate the yoga poses of the individuals in real-time and provide them continuous feedback using AI at the edge.
+This application is based on multi-person 2D pose estimation algorithm. The task is to predict a pose: body skeleton, which consists of keypoints and connections between them, for every person in an input video. The pose may contain up to 18 keypoints: *ears, eyes, nose, neck, shoulders, elbows, wrists, hips, knees*, and *ankles*. Some of potential use cases of the algorithm are action recognition and behavior understanding. Following pre-trained model is used in the application:
 
 * `human-pose-estimation-0001`, which is a human pose estimation network, that produces two feature vectors. The algorithm uses these feature vectors to predict human poses.
 
-For more information about the pre-trained model, refer to the [model documentation](../../models/intel/index.md).
-
-The input frame height is scaled to model height, frame width is scaled to preserve initial aspect ratio and padded to multiple of 8.
-
-Other demo objectives are:
-* Video/Camera as inputs, via OpenCV*
-* Visualization of all estimated poses
-
 ## How It Works
 
-On the start-up, the application reads command line parameters and loads human pose estimation model. Upon getting a frame from the OpenCV VideoCapture, the application executes human pose estimation algorithm and displays the results.
+On the start-up, the application reads command line parameters and loads human pose estimation model. Upon getting a frame from the OpenCV VideoCapture, the application executes human pose estimation algorithm and displays the results. The yoga pose will be analyzed against the pose of the Guru, BKS Iyengar who is the founder of the Iyengar Yoga method. Output will be an analyzed photo with a “Yes” or “No” indicating whether your pose is correct or not.
 
-> **NOTE**: By default, Open Model Zoo demos expect input with BGR channels order. If you trained your model to work with RGB order, you need to manually rearrange the default channels order in the demo application or reconvert your model using the Model Optimizer tool with `--reverse_input_channels` argument specified. For more information about the argument, refer to **When to Reverse Input Channels** section of [Converting a Model Using General Conversion Parameters](https://docs.openvinotoolkit.org/latest/_docs_MO_DG_prepare_model_convert_model_Converting_Model_General.html).
+## Building the Project
+
+1. Run build_windows.bat file for windows / build_linux.sh on linux platform.
+2. A build folder will be created inside the main project directory.
+3. Locate the my_yogini.exe at .\build\intel64\Release
 
 ## Running
 
 Running the application with the `-h` option yields the following usage message:
+
 ```sh
-./human_pose_estimation_demo -h
+./my_yogini.exe -h
 InferenceEngine:
     API version ............ <version>
     Build .................. <number>
 
-human_pose_estimation_demo [OPTION]
+my_yogini [OPTION]
 Options:
 
     -h                         Print a usage message.
@@ -42,25 +40,18 @@ Options:
 
 Running the application with an empty list of options yields an error message.
 
-To run the demo, you can use public or pre-trained models. To download the pre-trained models, use the OpenVINO [Model Downloader](../../tools/downloader/README.md) or go to [https://download.01.org/opencv/](https://download.01.org/opencv/).
-
-> **NOTE**: Before running the demo with a trained model, make sure the model is converted to the Inference Engine format (\*.xml + \*.bin) using the [Model Optimizer tool](https://docs.openvinotoolkit.org/latest/_docs_MO_DG_Deep_Learning_Model_Optimizer_DevGuide.html).
+To run the application, you can use public or pre-trained models. To download the pre-trained models, use the OpenVINO [Model Downloader](../../tools/downloader/README.md) or go to [https://download.01.org/opencv/](https://download.01.org/opencv/).
 
 For example, to do inference on a CPU, run the following command:
 
 ```sh
-./human_pose_estimation_demo -i <path_to_video>/input_video.mp4 -m <path_to_model>/human-pose-estimation-0001.xml -d CPU
+./my_yogini -i <path_to_video>/input_video.mp4 -m <path_to_model>/human-pose-estimation-0001.xml -d CPU
 ```
 
-## Demo Output
+## Output
 
-The demo uses OpenCV to display the resulting frame with estimated poses and text report of **FPS** - frames per second performance for the human pose estimation demo.
-> **NOTE**: On VPU devices (Intel® Movidius™ Neural Compute Stick, Intel® Neural Compute Stick 2, and Intel® Vision Accelerator Design with Intel® Movidius™ VPUs) this demo has been tested on the following Model Downloader available topologies: 
+The application uses OpenCV to display the resulting frame with estimated poses and text report of **FPS** - frames per second performance for the application.
+> **NOTE**: On VPU devices (Intel® Movidius™ Neural Compute Stick, Intel® Neural Compute Stick 2, and Intel® Vision Accelerator Design with Intel® Movidius™ VPUs) this application has been tested on the following Model Downloader available topologies:
+>
 >* `human-pose-estimation-0001`
 > Other models may produce unexpected results on these devices.
-
-## See Also
-* [Using Open Model Zoo demos](../README.md)
-* [Model Optimizer](https://docs.openvinotoolkit.org/latest/_docs_MO_DG_Deep_Learning_Model_Optimizer_DevGuide.html)
-* [Model Downloader](../../tools/downloader/README.md)
-# MyYogini

@@ -71,7 +71,7 @@ DEFINE_bool(r, false, raw_output_message);
 */
 static void showUsage() {
     std::cout << std::endl;
-    std::cout << "human_pose_estimation_demo [OPTION]" << std::endl;
+    std::cout << "my_yogini [OPTION]" << std::endl;
     std::cout << "Options:" << std::endl;
     std::cout << std::endl;
     std::cout << "    -h                         " << help_message << std::endl;
