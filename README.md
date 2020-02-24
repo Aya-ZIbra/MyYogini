@@ -51,10 +51,19 @@ For example, to do inference on a CPU, run the following command:
 ## Geometric heuristics used for pose correction
 The human pose model outputs the keypoints of the body. We have developed heuristics algorithms to detect the correctness of the user's pose compared to the Guru's pose. The steps are as follows:
 * Read in the Guru's pose from an input image. This is fed to the application using the (-c) command line option.
-* Extract the 
+* Extract the 17 keypoints of the Guru's pose.
+```
+std::vector<HumanPose> ref_poses = estimator.estimate(image_ref);
+```
+![](https://github.com/Aya-ZIbra/MyYogini/blob/master/goodWarrior1_kp.jpg?raw=true)
+>**NOTE**: In the current implemenation, we read in and run inference to extract the Guru's pose every time the pose is changed. In the future, the keypoints maps of all the Yoga poses would be saved to a file and the map of the chosen pose will be passed to the engine. This will help reduce the total inference time for a more responsive app. 
+ 
+ * Extract the 17 keypoints of the user's pose.
 ```
 std::vector<HumanPose> poses = estimator.estimate(image);
 ```
+![](https://github.com/Aya-ZIbra/MyYogini/blob/master/badWarrior1_kp.jpg?raw=true)
+
 
 ## Output
 
