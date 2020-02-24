@@ -1,7 +1,6 @@
 # MyYogini
 
-An Edge Application which will evaluate the yoga poses of the individuals in real-time and provide them continuous feedback using AI at the edge.
-This application is based on multi-person 2D pose estimation algorithm. The task is to predict a pose: body skeleton, which consists of keypoints and connections between them, for every person in an input video. The pose may contain up to 18 keypoints: *ears, eyes, nose, neck, shoulders, elbows, wrists, hips, knees*, and *ankles*. Some of potential use cases of the algorithm are action recognition and behavior understanding. Following pre-trained model is used in the application:
+An Edge Application which will evaluate the yoga poses of the individuals in real-time and provide them continuous feedback using AI at the edge.  This application is based on multi-person 2D pose estimation algorithm. Thanks to the optimizations done using the OpenVINO toolkit, **MyYogini** app is designed to be responsive enough to give real-time feedback to the user about the correctness of their pose. The task is to predict a pose: body skeleton, which consists of keypoints and connections between them, for every person in an input video. The pose may contain up to 18 keypoints: *ears, eyes, nose, neck, shoulders, elbows, wrists, hips, knees*, and *ankles*. Some of potential use cases of the algorithm are action recognition and behavior understanding. Following pre-trained model is used in the application:
 
 * `human-pose-estimation-0001`, which is a human pose estimation network, that produces two feature vectors. The algorithm uses these feature vectors to predict human poses.
 
@@ -49,6 +48,7 @@ For example, to do inference on a CPU, run the following command:
 ./my_yogini -i ./from_Chris/AI-Yogini-Project/badWarrior11.jpg -c ./from_Chris/AI-Yogini-Project/GoodWarrior1flipped.jpg -m ./models/human-pose-estimation-0001/FP32/human-pose-estimation-0001.xml -o core -no_show -r
 ```
 ## Geometric heuristics used for pose correction
+The input to our application is a camera stream of the user doing a Yoga pose. 
 The human pose model outputs the keypoints of the body. We have developed heuristics algorithms to detect the correctness of the user's pose compared to the Guru's pose. The steps are as follows:
 * Read in the Guru's pose from an input image. This is fed to the application using the (-c) command line option.
 * Extract the 17 keypoints of the Guru's pose.
@@ -58,12 +58,53 @@ std::vector<HumanPose> ref_poses = estimator.estimate(image_ref);
 ![](https://github.com/Aya-ZIbra/MyYogini/blob/master/goodWarrior1_kp.jpg?raw=true)
 >**NOTE**: In the current implemenation, we read in and run inference to extract the Guru's pose every time the pose is changed. In the future, the keypoints maps of all the Yoga poses would be saved to a file and the map of the chosen pose will be passed to the engine. This will help reduce the total inference time for a more responsive app. 
  
- * Extract the 17 keypoints of the user's pose.
+ * Extract the 17 keypoints of the user's pose.* 
 ```
 std::vector<HumanPose> poses = estimator.estimate(image);
 ```
 ![](https://github.com/Aya-ZIbra/MyYogini/blob/master/badWarrior1_kp.jpg?raw=true)
 
+* Scale and adjust the pose of the Guru to the dimensions of the user. This is a neatly written function added in a new cpp file (scale_human_pose.cpp). It simply loops over all the body parts of the user and creates the correct position taking into consideration the dimensions of the user and the relative position of the body keypoints.  
+```
+std::vector<HumanPose> scaled_poses = scaleHumanPose(ref_poses, poses);
+```
+Here is the output of the first versiont of this function overlaid on the original user's image. 
+![](https://github.com/Aya-ZIbra/MyYogini/blob/master/keypoint_promising1.jpg?raw=true)
+
+* You may have noticed that the corrected pose in the above frame has a flying right foot. The reason for this miscalculation is that the angles at the leg joints (knees and hips) need to be re-adjusted for the user's size (height). For that purpose, we added a new function to do the neccessary pose adjustments such that the feet stay tied to the ground.
+This function takes as input the scaled pose from our earlier calculations, the original pose (to find out where the ground is) and finally a list of the angles extracted from this specific Yoga pose, for example, warrior1, warrior2, etc. This list is used to determine which angles are flexible and adjust them to give a realistic expectation of the user's position given their size. 
+
+
+```
+HumanPose scaled_pose_tied = tieToFloor(scaled_pose, pose, ref_angles);
+```
+>**NOTE**: In the current implemenation, the information about flexible vs inflexible angles of a specific pose are hard-coded and only for the "warrior1" pose. This serves the purpose for the showcase project. In future implementation, this pose specific angles list should be added to the poses keypoint map file- mentioned earlier. 
+
+Here is what you finally get in our image example**:
+
+![](https://github.com/Aya-ZIbra/MyYogini/blob/master/keypoint_shifted.jpg?raw=true)
+
+## What does this mean for the user?
+It means a lot! 
+In our example, the lady's mistakes are all captured by **MyYogini**. Let's quickly compare the original pose* with the corrected one \*\*. 
+* The head and neck need to move backwards instead of leaning to front. 
+* The trunck needs to move downward for the front knee joint to be at 90 degrees.
+* Even the elevated back ankle is detected and corrected in the final output pose. 
+
+> **Your ultimate fantastic Yoga trainer!**
+
+## More on scoring and inference time (To be continued)
+### Extras:
+* The capablity to get the angle between the limbs of the user was implemented and tested.
+```
+int frontKneeAngle = get_angle_limb(ref_poses[0],{12,13}, {12,11}); // clockwise angle from lower to upper limb
+std::cout << "frontKneeAngle = " << frontKneeAngle<< std::endl;
+int backKneeAngle =  get_angle_limb(ref_poses[0],{9,10}, {9,8}); // clockwise angle
+std::cout << "backKneeAngle = " << backKneeAngle<< std::endl;
+```
+You can find the following data in the log:
+>frontKneeAngle = 96
+>backKneeAngle = 177
 
 ## Output
 
@@ -73,4 +114,4 @@ The application uses OpenCV to display the resulting frame with estimated poses 
 >* `human-pose-estimation-0001`
 > Other models may produce unexpected results on these devices.
 
-![](https://github.com/Aya-ZIbra/MyYogini/blob/master/keypoint_shifted.jpg?raw=true)
+
