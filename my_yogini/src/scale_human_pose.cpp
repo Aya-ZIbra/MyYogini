@@ -7,6 +7,86 @@
 #include "scale_human_pose.hpp"
 
 namespace human_pose_estimation {
+
+const int AnglesNumber = 13;
+//std::vector<limb_angle> angles_array(AnglesNumber, limb_angle({0,0}, {0,0}, 0));
+//limb_angle angle9({9,10}, {9,8}, 9);
+//angles_array[9] = limb_angle({9,10}, {9,8}, 9);
+//angles_array[11] = angle({11,12}, {11,10}, 11);
+//angles_array[12] =angle({12,13}, {12,11}, 12);
+    
+const std::vector<std::pair<int, int> > AngleSides = {{0,0}, {1,1}, {3,1},{4,2},
+                                                      {4,4}, {6,1}, {7,5},
+                                                      {7,7}, {9,1}, {10,8},
+                                                      {10,10}, {12,1}, {13,11}};
+
+std::vector<int> extract_angles(HumanPose pose, std::vector<int> restricted_angles){
+    // pose, {9,  11, 12}
+    std::vector<int> output(AnglesNumber, -1);
+    for (auto& angle_i : restricted_angles){
+        std::cout << angle_i << std::endl;
+        output[angle_i] = get_angle_limb(pose,{angle_i,AngleSides[angle_i].first}, {angle_i,AngleSides[angle_i].second});
+        std::cout << output[angle_i]<< std::endl;
+            }
+    return output;
+}
+int get_angle(cv::Point diff1, cv::Point diff2){
+    float dot = diff1.x * diff2.x + diff1.y * diff2.y; // dot product between [x1, y1] and [x2, y2]
+    float det = diff1.x * diff2.y - diff1.y * diff2.x; // x1*y2 - y1*x2      # determinant 
+    int rot_angle = static_cast<int>(std::atan2(det, dot) );//* 180 / CV_PI); //atan2(det, dot)  # atan2(y, x) or atan2(sin, cos)
+    return rot_angle;   
+}
+cv::Point2f rotate2d(const cv::Point2f& inPoint, const double& angRad)
+{
+    cv::Point2f outPoint;
+    //CW rotation
+    outPoint.x = std::cos(angRad)*inPoint.x - std::sin(angRad)*inPoint.y;
+    outPoint.y = std::sin(angRad)*inPoint.x + std::cos(angRad)*inPoint.y;
+    return outPoint;
+}
+
+HumanPose tieToFloor(HumanPose scaled_pose, HumanPose pose, std::vector<int> ref_angles){
+   double Y_ground =  (pose.keypoints[10].y + pose.keypoints[13].y)/2;
+    // leg 1: 8 9 10
+    if (ref_angles[8] == -1){
+        std::cout << "Inside Tie: Check1" << std::endl;
+        // rotate 10 around 8
+        cv::Point2f center = scaled_pose.keypoints[8];
+        std::cout << scaled_pose.keypoints[8].x <<", "<< scaled_pose.keypoints[8].y<< std::endl;
+        double y10 = scaled_pose.keypoints[13].y ; // make 10 and 13 equal Y
+        cv::Point difference = scaled_pose.keypoints[10] - center; // 10 old and 8 (x,y)
+        double L2 = difference.x * difference.x + difference.y * difference.y;
+        double delta_y10 = center.y - y10; // 10 new and 8 
+        double delta_x10 = std::sqrt(L2 - delta_y10*delta_y10 ); // 10 new and 8 
+ 
+        cv::Point2f pt10 (center.x - delta_x10, y10);
+        scaled_pose.keypoints[10] = pt10; // 10 moved
+        
+        std::cout << "Inside Tie: Check2" << std::endl;
+        // get rotation angle about 8
+        cv::Point differenceNew = scaled_pose.keypoints[10] - center;  // 10 new and 8
+        int rot_angle = get_angle(difference, differenceNew);
+        std::cout << "Inside Tie: Check3" << std::endl;
+        // rotate the knee (9)
+        
+        scaled_pose.keypoints[9] = rotate2d(scaled_pose.keypoints[9] - center, rot_angle) + center;
+        
+        std::cout << "Inside Tie: Check4" << std::endl;
+        
+    }
+    if (scaled_pose.keypoints[10].y == scaled_pose.keypoints[13].y){
+        double shift = Y_ground - scaled_pose.keypoints[10].y ;
+        for( int a = 0; a < 18; a = a + 1 ) {
+            if (scaled_pose.keypoints[a].y != -1){
+                std::cout << a<< "\t"<< scaled_pose.keypoints[a].y << std::endl;
+                scaled_pose.keypoints[a].y = shift + scaled_pose.keypoints[a].y;
+                std::cout << a<< "\t"<< scaled_pose.keypoints[a].y << std::endl;
+            }
+        }
+        
+    }
+    return scaled_pose;
+}
 int get_angle_limb(HumanPose pose, std::pair<int, int> limbKeypointsId1, std::pair<int, int> limbKeypointsId2){
     // Input example: pose, {8, 9},   {9, 10}
     std::pair<cv::Point2f, cv::Point2f> limbKeypoints1(pose.keypoints[limbKeypointsId1.first],pose.keypoints[limbKeypointsId1.second]);
@@ -66,8 +146,11 @@ std::vector<HumanPose> scaleHumanPose(const std::vector<HumanPose>& ref_poses, c
             cv::Point2f delta (L * difference_ref.x/ L_ref, L * difference_ref.y/ L_ref);
             scaled_pose.keypoints[limbKeypointsId.second] = scaled_pose.keypoints[limbKeypointsId.first] + delta;
         }
+        std::vector<int> ref_angles = extract_angles(ref_poses[0], {9,  11, 12}); // for warrior 1
         std::cout << "Check2" << std::endl;
-        scaled_poses.push_back(scaled_pose);
+        HumanPose scaled_pose_tied = tieToFloor(scaled_pose, pose, ref_angles);
+        std::cout << "Check3" << std::endl;
+        scaled_poses.push_back(scaled_pose_tied);
     }
     
         
