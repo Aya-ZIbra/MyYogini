@@ -35,6 +35,7 @@ Options:
     -pc                        Optional. Enable per-layer performance report.
     -no_show                   Optional. Do not show processed video.
     -r                         Optional. Output inference results as raw values.
+    -c                         Required. Comparison reference pose.
 
 ```
 
@@ -47,6 +48,13 @@ For example, to do inference on a CPU, run the following command:
 ```sh
 ./my_yogini -i ./from_Chris/AI-Yogini-Project/badWarrior11.jpg -c ./from_Chris/AI-Yogini-Project/GoodWarrior1flipped.jpg -m ./models/human-pose-estimation-0001/FP32/human-pose-estimation-0001.xml -o core -no_show -r
 ```
+## Geometric heuristics used for pose correction
+The human pose model outputs the keypoints of the body. We have developed heuristics algorithms to detect the correctness of the user's pose compared to the Guru's pose. The steps are as follows:
+* Read in the Guru's pose from an input image. This is fed to the application using the (-c) command line option.
+* Extract the 
+```
+std::vector<HumanPose> poses = estimator.estimate(image);
+```
 
 ## Output
 
@@ -55,3 +63,5 @@ The application uses OpenCV to display the resulting frame with estimated poses 
 >
 >* `human-pose-estimation-0001`
 > Other models may produce unexpected results on these devices.
+
+![](https://github.com/Aya-ZIbra/MyYogini/blob/master/keypoint_shifted.jpg?raw=true)
