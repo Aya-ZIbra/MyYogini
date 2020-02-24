@@ -1,33 +1,30 @@
-# Human Pose Estimation C++ Demo
+# MyYogini
 
-This demo showcases the work of multi-person 2D pose estimation algorithm. The task is to predict a pose: body skeleton, which consists of keypoints and connections between them, for every person in an input video. The pose may contain up to 18 keypoints: *ears, eyes, nose, neck, shoulders, elbows, wrists, hips, knees*, and *ankles*. Some of potential use cases of the algorithm are action recognition and behavior understanding. You can use the following pre-trained model with the demo:
+An Edge Application which will evaluate the yoga poses of the individuals in real-time and provide them continuous feedback using AI at the edge.  This application is based on multi-person 2D pose estimation algorithm. Thanks to the optimizations done using the OpenVINO toolkit, **MyYogini** app is designed to be responsive enough to give real-time feedback to the user about the correctness of their pose. The task is to predict a pose: body skeleton, which consists of keypoints and connections between them, for every person in an input video. The pose may contain up to 18 keypoints: *ears, eyes, nose, neck, shoulders, elbows, wrists, hips, knees*, and *ankles*. Some of potential use cases of the algorithm are action recognition and behavior understanding. Following pre-trained model is used in the application:
 
 * `human-pose-estimation-0001`, which is a human pose estimation network, that produces two feature vectors. The algorithm uses these feature vectors to predict human poses.
 
-For more information about the pre-trained model, refer to the [model documentation](../../models/intel/index.md).
-
-The input frame height is scaled to model height, frame width is scaled to preserve initial aspect ratio and padded to multiple of 8.
-
-Other demo objectives are:
-* Video/Camera as inputs, via OpenCV*
-* Visualization of all estimated poses
-
 ## How It Works
 
-On the start-up, the application reads command line parameters and loads human pose estimation model. Upon getting a frame from the OpenCV VideoCapture, the application executes human pose estimation algorithm and displays the results.
+On the start-up, the application reads command line parameters and loads human pose estimation model. Upon getting a frame from the OpenCV VideoCapture, the application executes human pose estimation algorithm and displays the results. The yoga pose will be analyzed against the pose of the Guru, BKS Iyengar who is the founder of the Iyengar Yoga method. Output will be an analyzed photo with a “Yes” or “No” indicating whether your pose is correct or not.
 
-> **NOTE**: By default, Open Model Zoo demos expect input with BGR channels order. If you trained your model to work with RGB order, you need to manually rearrange the default channels order in the demo application or reconvert your model using the Model Optimizer tool with `--reverse_input_channels` argument specified. For more information about the argument, refer to **When to Reverse Input Channels** section of [Converting a Model Using General Conversion Parameters](https://docs.openvinotoolkit.org/latest/_docs_MO_DG_prepare_model_convert_model_Converting_Model_General.html).
+## Building the Project
+
+1. Run build_windows.bat file for windows / build_linux.sh on linux platform.
+2. A build folder will be created inside the main project directory.
+3. Locate the my_yogini.exe at .\build\intel64\Release
 
 ## Running
 
 Running the application with the `-h` option yields the following usage message:
+
 ```sh
-./human_pose_estimation_demo -h
+./my_yogini.exe -h
 InferenceEngine:
     API version ............ <version>
     Build .................. <number>
 
-human_pose_estimation_demo [OPTION]
+my_yogini [OPTION]
 Options:
 
     -h                         Print a usage message.
@@ -37,30 +34,84 @@ Options:
     -pc                        Optional. Enable per-layer performance report.
     -no_show                   Optional. Do not show processed video.
     -r                         Optional. Output inference results as raw values.
+    -c                         Required. Comparison reference pose.
 
 ```
 
 Running the application with an empty list of options yields an error message.
 
-To run the demo, you can use public or pre-trained models. To download the pre-trained models, use the OpenVINO [Model Downloader](../../tools/downloader/README.md) or go to [https://download.01.org/opencv/](https://download.01.org/opencv/).
-
-> **NOTE**: Before running the demo with a trained model, make sure the model is converted to the Inference Engine format (\*.xml + \*.bin) using the [Model Optimizer tool](https://docs.openvinotoolkit.org/latest/_docs_MO_DG_Deep_Learning_Model_Optimizer_DevGuide.html).
+To run the application, you can use public or pre-trained models. To download the pre-trained models, use the OpenVINO [Model Downloader](../../tools/downloader/README.md) or go to [https://download.01.org/opencv/](https://download.01.org/opencv/).
 
 For example, to do inference on a CPU, run the following command:
 
 ```sh
-./human_pose_estimation_demo -i <path_to_video>/input_video.mp4 -m <path_to_model>/human-pose-estimation-0001.xml -d CPU
+./my_yogini -i ./from_Chris/AI-Yogini-Project/badWarrior11.jpg -c ./from_Chris/AI-Yogini-Project/GoodWarrior1flipped.jpg -m ./models/human-pose-estimation-0001/FP32/human-pose-estimation-0001.xml -o core -no_show -r
 ```
+## Geometric heuristics used for pose correction
+The input to our application is a camera stream of the user doing a Yoga pose. 
+The human pose model outputs the keypoints of the body. We have developed heuristics algorithms to detect the correctness of the user's pose compared to the Guru's pose. The steps are as follows:
+* Read in the Guru's pose from an input image. This is fed to the application using the (-c) command line option.
+* Extract the 17 keypoints of the Guru's pose.
+```
+std::vector<HumanPose> ref_poses = estimator.estimate(image_ref);
+```
+![](https://github.com/Aya-ZIbra/MyYogini/blob/master/goodWarrior1_kp.jpg?raw=true)
+>**NOTE**: In the current implemenation, we read in and run inference to extract the Guru's pose every time the pose is changed. In the future, the keypoints maps of all the Yoga poses would be saved to a file and the map of the chosen pose will be passed to the engine. This will help reduce the total inference time for a more responsive app. 
+ 
+ * Extract the 17 keypoints of the user's pose.* 
+```
+std::vector<HumanPose> poses = estimator.estimate(image);
+```
+![](https://github.com/Aya-ZIbra/MyYogini/blob/master/badWarrior1_kp.jpg?raw=true)
 
-## Demo Output
+* Scale and adjust the pose of the Guru to the dimensions of the user. This is a neatly written function added in a new cpp file (scale_human_pose.cpp). It simply loops over all the body parts of the user and creates the correct position taking into consideration the dimensions of the user and the relative position of the body keypoints.  
+```
+std::vector<HumanPose> scaled_poses = scaleHumanPose(ref_poses, poses);
+```
+Here is the output of the first versiont of this function overlaid on the original user's image. 
+![](https://github.com/Aya-ZIbra/MyYogini/blob/master/keypoint_promising1.jpg?raw=true)
 
-The demo uses OpenCV to display the resulting frame with estimated poses and text report of **FPS** - frames per second performance for the human pose estimation demo.
-> **NOTE**: On VPU devices (Intel® Movidius™ Neural Compute Stick, Intel® Neural Compute Stick 2, and Intel® Vision Accelerator Design with Intel® Movidius™ VPUs) this demo has been tested on the following Model Downloader available topologies: 
+* You may have noticed that the corrected pose in the above frame has a flying right foot. The reason for this miscalculation is that the angles at the leg joints (knees and hips) need to be re-adjusted for the user's size (height). For that purpose, we added a new function to do the neccessary pose adjustments such that the feet stay tied to the ground.
+This function takes as input the scaled pose from our earlier calculations, the original pose (to find out where the ground is) and finally a list of the angles extracted from this specific Yoga pose, for example, warrior1, warrior2, etc. This list is used to determine which angles are flexible and adjust them to give a realistic expectation of the user's position given their size. 
+
+
+```
+HumanPose scaled_pose_tied = tieToFloor(scaled_pose, pose, ref_angles);
+```
+>**NOTE**: In the current implemenation, the information about flexible vs inflexible angles of a specific pose are hard-coded and only for the "warrior1" pose. This serves the purpose for the showcase project. In future implementation, this pose specific angles list should be added to the poses keypoint map file- mentioned earlier. 
+
+Here is what you finally get in our image example**:
+
+![](https://github.com/Aya-ZIbra/MyYogini/blob/master/keypoint_shifted.jpg?raw=true)
+
+## What does this mean for the user?
+It means a lot! 
+In our example, the lady's mistakes are all captured by **MyYogini**. Let's quickly compare the original pose* with the corrected one \*\*. 
+* The head and neck need to move backwards instead of leaning to front. 
+* The trunck needs to move downward for the front knee joint to be at 90 degrees.
+* Even the elevated back ankle is detected and corrected in the final output pose. 
+
+> **Your ultimate fantastic Yoga trainer!**
+
+## More on scoring and inference time (To be continued)
+### Extras:
+* The capablity to get the angle between the limbs of the user was implemented and tested.
+```
+int frontKneeAngle = get_angle_limb(ref_poses[0],{12,13}, {12,11}); // clockwise angle from lower to upper limb
+std::cout << "frontKneeAngle = " << frontKneeAngle<< std::endl;
+int backKneeAngle =  get_angle_limb(ref_poses[0],{9,10}, {9,8}); // clockwise angle
+std::cout << "backKneeAngle = " << backKneeAngle<< std::endl;
+```
+You can find the following data in the log:
+>frontKneeAngle = 96
+>backKneeAngle = 177
+
+## Output
+
+The application uses OpenCV to display the resulting frame with estimated poses and text report of **Inference time** - frames per second performance for the application.
+> **NOTE**: On VPU devices (Intel® Movidius™ Neural Compute Stick, Intel® Neural Compute Stick 2, and Intel® Vision Accelerator Design with Intel® Movidius™ VPUs) this application has been tested on the following Model Downloader available topologies:
+>
 >* `human-pose-estimation-0001`
 > Other models may produce unexpected results on these devices.
 
-## See Also
-* [Using Open Model Zoo demos](../README.md)
-* [Model Optimizer](https://docs.openvinotoolkit.org/latest/_docs_MO_DG_Deep_Learning_Model_Optimizer_DevGuide.html)
-* [Model Downloader](../../tools/downloader/README.md)
-# MyYogini
+

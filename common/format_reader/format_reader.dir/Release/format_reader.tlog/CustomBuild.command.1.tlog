@@ -1,0 +1,10 @@
+^D:\MYDATA\INTEL EDGE AI SCHOLARSHIP CHALLENGE\PERSONAL GYM TRAINER\HUMAN_POSE_ESTIMATION\COMMON\FORMAT_READER\CMAKELISTS.TXT
+setlocal
+"D:\My Softwares\Program Files\CMake\bin\cmake.exe" "-SD:/MyData/Intel Edge AI Scholarship Challenge/Personal Gym Trainer/human_pose_estimation" "-BD:/MyData/Intel Edge AI Scholarship Challenge/Personal Gym Trainer/human_pose_estimation" --check-stamp-file "D:/MyData/Intel Edge AI Scholarship Challenge/Personal Gym Trainer/human_pose_estimation/common/format_reader/CMakeFiles/generate.stamp"
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
