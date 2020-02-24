@@ -30,6 +30,8 @@ Options:
 
     -h                         Print a usage message.
     -i "<path>"                Required. Path to a video. Default value is "cam" to work with camera.
+    -c "<path>"                Required. Path to a photo to compare to.
+    -o "<path>"                Optional. Path to the output directory.
     -m "<path>"                Required. Path to the Human Pose Estimation model (.xml) file.
     -d "<device>"              Optional. Specify the target device for Human Pose Estimation (the list of available devices is shown below). Default value is CPU. Use "-d HETERO:<comma-separated_devices_list>" format to specify HETERO plugin. The application looks for a suitable plugin for the specified device.
     -pc                        Optional. Enable per-layer performance report.
