@@ -1,0 +1,28 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="16.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="D:\MyData\Intel Edge AI Scholarship Challenge\Personal Gym Trainer\human_pose_estimation\human_pose_estimation_demo\main.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\MyData\Intel Edge AI Scholarship Challenge\Personal Gym Trainer\human_pose_estimation\human_pose_estimation_demo\src\human_pose.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\MyData\Intel Edge AI Scholarship Challenge\Personal Gym Trainer\human_pose_estimation\human_pose_estimation_demo\src\human_pose_estimator.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\MyData\Intel Edge AI Scholarship Challenge\Personal Gym Trainer\human_pose_estimation\human_pose_estimation_demo\src\peak.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\MyData\Intel Edge AI Scholarship Challenge\Personal Gym Trainer\human_pose_estimation\human_pose_estimation_demo\src\render_human_pose.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="D:\MyData\Intel Edge AI Scholarship Challenge\Personal Gym Trainer\human_pose_estimation\human_pose_estimation_demo\CMakeLists.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{60AAD1CA-35AD-35FF-AEE8-71195A27AD25}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

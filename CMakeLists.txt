@@ -4,7 +4,7 @@
 
 cmake_minimum_required (VERSION 2.8.12)
 
-project(HumanPoseEstimation)
+project(MyYogini)
 
 if (CMAKE_BUILD_TYPE STREQUAL "")
     message(STATUS "CMAKE_BUILD_TYPE not defined, 'Release' will be used")
