@@ -45,12 +45,12 @@ To run the application, you can use public or pre-trained models. To download th
 For example, to do inference on a CPU, run the following command:
 
 ```sh
-./my_yogini -i <path_to_video>/input_video.mp4 -m <path_to_model>/human-pose-estimation-0001.xml -d CPU
+./my_yogini -i ./from_Chris/AI-Yogini-Project/badWarrior11.jpg -c ./from_Chris/AI-Yogini-Project/GoodWarrior1flipped.jpg -m ./models/human-pose-estimation-0001/FP32/human-pose-estimation-0001.xml -o core -no_show -r
 ```
 
 ## Output
 
-The application uses OpenCV to display the resulting frame with estimated poses and text report of **FPS** - frames per second performance for the application.
+The application uses OpenCV to display the resulting frame with estimated poses and text report of **Inference time** - frames per second performance for the application.
 > **NOTE**: On VPU devices (Intel® Movidius™ Neural Compute Stick, Intel® Neural Compute Stick 2, and Intel® Vision Accelerator Design with Intel® Movidius™ VPUs) this application has been tested on the following Model Downloader available topologies:
 >
 >* `human-pose-estimation-0001`
