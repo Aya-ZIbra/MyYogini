@@ -111,6 +111,8 @@ int main(int argc, char* argv[]) {
             std::cout << "frontKneeAngle = " << frontKneeAngle<< std::endl;
             int backKneeAngle =  get_angle_limb(ref_poses[0],{9,10}, {9,8}); // clockwise angle
             std::cout << "backKneeAngle = " << backKneeAngle<< std::endl;
+	    //std::vector<int> aya = extract_angles(ref_poses[0], {9,  11, 12});
+            //std::cout << aya[9] << std::endl;
             std::vector<HumanPose> scaled_poses = scaleHumanPose(ref_poses, poses);
             std::cout << "Done" << std::endl;
             double t2 = static_cast<double>(cv::getTickCount());
@@ -138,13 +140,13 @@ int main(int argc, char* argv[]) {
             //renderHumanPose(poses, image);
             renderHumanPose(scaled_poses, image);
            
-            //cv::Mat fpsPane(35, 155, CV_8UC3);
-            //fpsPane.setTo(cv::Scalar(153, 119, 76));
-            //cv::Mat srcRegion = image(cv::Rect(8, 8, fpsPane.cols, fpsPane.rows));
-            //cv::addWeighted(srcRegion, 0.4, fpsPane, 0.6, 0, srcRegion);
+            cv::Mat fpsPane(35, 300, CV_8UC3);
+            fpsPane.setTo(cv::Scalar(153, 119, 76));
+            cv::Mat srcRegion = image(cv::Rect(8, 8, fpsPane.cols, fpsPane.rows));
+            cv::addWeighted(srcRegion, 0.4, fpsPane, 0.6, 0, srcRegion);
             std::stringstream fpsSs;
-            //fpsSs << "FPS: " << int(1000.0f / inferenceTime * 100) / 100.0f;
-            cv::putText(image, fpsSs.str(), cv::Point(16, 32), cv::FONT_HERSHEY_COMPLEX, 0.8, cv::Scalar(0, 0, 255)); // ... */
+            fpsSs << "Inference time (ms): " << int(inferenceTime ) / 10.0f;
+            cv::putText(image, fpsSs.str(), cv::Point(16, 32), cv::FONT_HERSHEY_COMPLEX, 0.6, cv::Scalar(0, 0, 255)); // ... */
             //cv::imshow("ICV Human Pose Estimation", image);
             
             if (!FLAGS_o.empty()) {
