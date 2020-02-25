@@ -13,6 +13,7 @@ static const char help_message[] = "Print a usage message.";
 /// @brief Message for video argument
 static const char video_message[] = "Required. Path to a video. Default value is \"cam\" to work with camera.";
 static const char compare_message[] = "Required. Path to a photo to compare to. ";
+static const char output_message[] = "Optional. Path to the output directory. ";
 /// @brief Message for model argument
 static const char human_pose_estimation_model_message[] = "Required. Path to the Human Pose Estimation model (.xml) file.";
 
@@ -78,6 +79,7 @@ static void showUsage() {
     std::cout << "    -i \"<path>\"                " << video_message << std::endl;
 	std::cout << "    -c \"<path>\"                " << compare_message << std::endl;
     std::cout << "    -m \"<path>\"                " << human_pose_estimation_model_message << std::endl;
+    std::cout << "    -o \"<path>\"                " << output_message << std::endl;
     std::cout << "    -d \"<device>\"              " << target_device_message << std::endl;
     std::cout << "    -pc                        " << performance_counter_message << std::endl;
     std::cout << "    -no_show                   " << no_show_processed_video << std::endl;
