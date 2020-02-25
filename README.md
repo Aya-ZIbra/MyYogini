@@ -1,15 +1,21 @@
 # MyYogini
+An app that goes with you to the gym and diagnoses your yoga pose. It gives you corrections and tracks your style progess. This is the ultimate exercise app since it gives you a personalized target pose. Ideally, it will learn over time your particular limitations and not push you so hard that you get injured. 
+Being an Edge Application, **MyYogini** will evaluate the yoga poses of the individuals in real-time and provide them continuous feedback using AI at edge compute nodes.  This application is based on multi-person 2D pose estimation algorithm. Thanks to the optimizations done using the OpenVINO toolkit, **MyYogini** app is designed to be responsive enough to give real-time feedback to the user about the correctness of their pose. 
 
-An Edge Application which will evaluate the yoga poses of the individuals in real-time and provide them continuous feedback using AI at the edge.  This application is based on multi-person 2D pose estimation algorithm. Thanks to the optimizations done using the OpenVINO toolkit, **MyYogini** app is designed to be responsive enough to give real-time feedback to the user about the correctness of their pose. The task is to predict a pose: body skeleton, which consists of keypoints and connections between them, for every person in an input video. The pose may contain up to 18 keypoints: *ears, eyes, nose, neck, shoulders, elbows, wrists, hips, knees*, and *ankles*. Some of potential use cases of the algorithm are action recognition and behavior understanding. Following pre-trained model is used in the application:
+> We got this application running three platforms(Linux, Windows, Raspberry Pi +NCS2) and created a Mock UI. 
+> We got exclusive access to EDGE AI intel DevCloud:  https://software.intel.com/en-us/devcloud/edge
+> The application was run on CPU devices of intel DevCloud showing a delay of less than **40 ms. 
+
+Following pre-trained model is used in the application:
 
 * `human-pose-estimation-0001`, which is a human pose estimation network, that produces two feature vectors. The algorithm uses these feature vectors to predict human poses.
 
 ## How It Works
 
-On the start-up, the application reads command line parameters and loads human pose estimation model. Upon getting a frame from the OpenCV VideoCapture, the application runs inference of human pose estimation model (optimized by OpenVINO toolkit and available as a pre-trained model on Intel model zoo). The model output is post-processed and the user's body keypoints are detected. The yoga pose will be analyzed against the pose of the Guru, BKS Iyengar who is the founder of the Iyengar Yoga method. Output will be an analyzed photo showing the exact moves needed to do the pose correctly.  A scoring method is also proposed for a “Yes” or “No” realtime evaluation of your pose indicating whether it is correct or not.
+On the start-up, the application reads command line parameters and loads human pose estimation model. Upon getting a frame from the OpenCV VideoCapture, the application runs inference of human pose estimation model (optimized by OpenVINO toolkit and available as a pre-trained model on Intel model zoo). The model output is post-processed and the user's body keypoints are detected. The yoga pose will be analyzed against the pose of the Guru, BKS Iyengar who is the founder of the Iyengar Yoga method. Output will be an analyzed photo showing **a personalized version of the Guru's pose**. This analysis shows the user the exact changes needed to do the pose correctly. A scoring method is also proposed for a “Yes” or “No” realtime evaluation of your pose indicating whether it is correct or not.
 
 ## Building the Project
-
+For windows and linux: 
 1. Run build_windows.bat file for windows / build_linux.sh on linux platform.
 2. A build folder will be created inside the main project directory.
 3. Locate the my_yogini.exe at .\build\intel64\Release
@@ -47,9 +53,11 @@ For example, to do inference on a CPU, run the following command:
 ```sh
 ./my_yogini -i ./from_Chris/AI-Yogini-Project/badWarrior11.jpg -c ./from_Chris/AI-Yogini-Project/GoodWarrior1flipped.jpg -m ./models/human-pose-estimation-0001/FP32/human-pose-estimation-0001.xml -o core -no_show -r
 ```
-## Geometric heuristics used for pose correction
-The input to our application is a camera stream of the user doing a Yoga pose. 
-The human pose model outputs the keypoints of the body. We have developed heuristics algorithms to detect the correctness of the user's pose compared to the Guru's pose. The steps are as follows:
+## Geometric heuristics used for pose personalization and correction
+The input to our application is a camera stream of the user doing a Yoga pose. The application output is a personalized target pose that considers the user's height, weight, etc. 
+The human pose model outputs the keypoints of the body. It predicts a pose: body skeleton, which consists of keypoints and connections between them, for every person in an input video. The pose may contain up to 18 keypoints: *ears, eyes, nose, neck, shoulders, elbows, wrists, hips, knees*, and *ankles*. 
+
+We have developed heuristics algorithms to detect the correctness of the user's pose compared to the Guru's pose. The steps are as follows:
 * Read in the Guru's pose from an input image. This is fed to the application using the (-c) command line option.
 * Extract the 17 keypoints of the Guru's pose.
 ```
@@ -93,8 +101,12 @@ In our example, the lady's mistakes are all captured by **MyYogini**. Let's quic
 
 > **Your ultimate fantastic Yoga trainer!**
 
-## More on scoring and inference time (To be continued)
-### Extras:
+
+## Performance on different platforms
+* The app is based off an OPENVINO optimized version of the OpenPose AI model. When this app was run on Intel EDGE DevCloud (cpu device), we got an inference time of around 40 ms per frame as seen in the picture of the lady above.
+* With NCS2+ RasberryPi: .....................
+
+## Pose angle checking and realtime feedback:
 * The capablity to get the angle between the limbs of the user was implemented and tested.
 ```
 int frontKneeAngle = get_angle_limb(ref_poses[0],{12,13}, {12,11}); // clockwise angle from lower to upper limb
@@ -106,14 +118,32 @@ You can find the following data in the log:
 >frontKneeAngle = 96
 >backKneeAngle = 177
 
+Real time feedback is also provided to the user as follows:
+![](https://github.com/Aya-ZIbra/MyYogini/blob/master/keypoint_feedback.jpg?raw=true)
+## Scoring:
+Here, we propose a method to score the correctness of the pose based on the RMS (root square means) of the distances between the personalized target pose and the user's current pose.If all angles passed the check and the RMS error is below certain threshold, the pose is marked as "Yes".
+
 ## Output and User Interface
-Our team went the extra mile to produce a mock-up UI. The video below is
-![](https://github.com/Aya-ZIbra/MyYogini/blob/master/output-3_HLKGcStU_Ygaa.gif?raw=true)
-
 The application uses OpenCV to display the resulting frame with estimated poses and text report of **Inference time** - frames per second performance for the application.
-> **NOTE**: On VPU devices (Intel® Movidius™ Neural Compute Stick, Intel® Neural Compute Stick 2, and Intel® Vision Accelerator Design with Intel® Movidius™ VPUs) this application has been tested on the following Model Downloader available topologies:
->
->* `human-pose-estimation-0001`
-> Other models may produce unexpected results on these devices.
 
+Our team went the extra mile to produce a mock-up UI. 
+### Mock UI
+Finally, our team went the extra mile to develop a mock UI on Adobe XD here:
+https://xd.adobe.com/view/10f45c9d-46f4-4996-5978-a250f45795f0-66c5/screen/68122f31-24c3-41fb-9d3e-3b0fc4ef53d0/Blog/
+Click the Home icon to load the mock UI - all features are not enabled so watch the video Prototype.mp4 here. 
+* Home page:  Shows the number of attempts and success and fails to match the pose; if you scroll down (which you can’t seem to do on the mock UI above but see video) you see a list of poses.  If you click the pose you get a description. (Screen 2)
+* Click Compare Your Pose on home page
+* Pick a Pose (Screen 3)
+* Take a picture (Screen 4)
+* Look at the comparison (hard to scroll on the Mock UI so see the video) (Screen 5). 
+
+The video below better illustrates the use of the UI:
+![](https://github.com/Aya-ZIbra/MyYogini/blob/master/btomiqh4rl.gif?raw=true)
+ 
+## Future work
+# More personalized target pose
+So far, we have relied on the user's height, arms' length, and other physical dimensions to determine the target pose. Other factors could be taken care of in the future. For example, the center of gravity of a pregnant woman should be considered when calculating the 
+personalized pose. Also, if the user has any limitations due 
+
+# Reference flipping
 
