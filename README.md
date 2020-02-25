@@ -138,6 +138,7 @@ Click the Home icon to load the mock UI - all features are not enabled so watch 
 * Look at the comparison (hard to scroll on the Mock UI so see the video) (Screen 5). 
 
 The video below better illustrates the use of the UI:
+
 ![](https://github.com/Aya-ZIbra/MyYogini/blob/master/btomiqh4rl.gif?raw=true)
  
 ## Future work
@@ -145,5 +146,5 @@ The video below better illustrates the use of the UI:
 So far, we have relied on the user's height, arms' length, and other physical dimensions to determine the target pose. Other factors could be taken care of in the future. For example, the center of gravity of a pregnant woman should be considered when calculating the 
 personalized pose. Also, if the user has any limitations due 
 
-# Reference flipping
-
+# Reference flipping and lower limb confusion
+One limitation in the current implementation is that the app doesn't detect if the side of the user is the same as that of the reference Guru. Furthermore, when the side is detected, the app should be flexible about which leg is at the front and which is at the back. 
