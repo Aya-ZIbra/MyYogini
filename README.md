@@ -3,8 +3,12 @@ An app that goes with you to the gym and diagnoses your yoga pose. It gives you 
 Being an Edge Application, **MyYogini** will evaluate the yoga poses of the individuals in real-time and provide them continuous feedback using AI at edge compute nodes.  This application is based on multi-person 2D pose estimation algorithm. Thanks to the optimizations done using the OpenVINO toolkit, **MyYogini** app is designed to be responsive enough to give real-time feedback to the user about the correctness of their pose. 
 
 > We got this application running three platforms(Linux, Windows, Raspberry Pi +NCS2) and created a Mock UI. 
-> We got exclusive access to EDGE AI intel DevCloud:  https://software.intel.com/en-us/devcloud/edge
-> The application was run on CPU devices of intel DevCloud showing a delay of less than **40 ms. 
+
+> We got exclusive access to EDGE AI intel DevCloud:  https://software.intel.com/en-us/devcloud/edge.
+
+> Here is a link to our project proposal on Intel DevMesh : https://devmesh.intel.com/projects/myyogini
+
+The application was run on CPU devices of intel DevCloud showing a delay of less than **40 ms.**
 
 Following pre-trained model is used in the application:
 
