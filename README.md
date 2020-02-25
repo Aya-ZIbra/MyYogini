@@ -6,7 +6,7 @@ An Edge Application which will evaluate the yoga poses of the individuals in rea
 
 ## How It Works
 
-On the start-up, the application reads command line parameters and loads human pose estimation model. Upon getting a frame from the OpenCV VideoCapture, the application executes human pose estimation algorithm and displays the results. The yoga pose will be analyzed against the pose of the Guru, BKS Iyengar who is the founder of the Iyengar Yoga method. Output will be an analyzed photo with a “Yes” or “No” indicating whether your pose is correct or not.
+On the start-up, the application reads command line parameters and loads human pose estimation model. Upon getting a frame from the OpenCV VideoCapture, the application runs inference of human pose estimation model (optimized by OpenVINO toolkit and available as a pre-trained model on Intel model zoo). The model output is post-processed and the user's body keypoints are detected. The yoga pose will be analyzed against the pose of the Guru, BKS Iyengar who is the founder of the Iyengar Yoga method. Output will be an analyzed photo showing the exact moves needed to do the pose correctly.  A scoring method is also proposed for a “Yes” or “No” realtime evaluation of your pose indicating whether it is correct or not.
 
 ## Building the Project
 
@@ -106,7 +106,9 @@ You can find the following data in the log:
 >frontKneeAngle = 96
 >backKneeAngle = 177
 
-## Output
+## Output and User Interface
+Our team went the extra mile to produce a mock-up UI. The video below is
+![](https://github.com/Aya-ZIbra/MyYogini/blob/master/output-3_HLKGcStU_Ygaa.gif?raw=true)
 
 The application uses OpenCV to display the resulting frame with estimated poses and text report of **Inference time** - frames per second performance for the application.
 > **NOTE**: On VPU devices (Intel® Movidius™ Neural Compute Stick, Intel® Neural Compute Stick 2, and Intel® Vision Accelerator Design with Intel® Movidius™ VPUs) this application has been tested on the following Model Downloader available topologies:
