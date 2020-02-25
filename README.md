@@ -92,7 +92,7 @@ Here is what you finally get in our image example**:
 
 ![](https://github.com/Aya-ZIbra/MyYogini/blob/master/keypoint_shifted.jpg?raw=true)
 
-## What does this mean for the user?
+# What does this mean for the user?
 It means a lot! 
 In our example, the lady's mistakes are all captured by **MyYogini**. Let's quickly compare the original pose* with the corrected one \*\*. 
 * The head and neck need to move backwards instead of leaning to front. 
@@ -102,11 +102,11 @@ In our example, the lady's mistakes are all captured by **MyYogini**. Let's quic
 > **Your ultimate fantastic Yoga trainer!**
 
 
-## Performance on different platforms
+# Performance on different platforms
 * The app is based off an OPENVINO optimized version of the OpenPose AI model. When this app was run on Intel EDGE DevCloud (cpu device), we got an inference time of around 40 ms per frame as seen in the picture of the lady above.
 * With NCS2+ RasberryPi: .....................
 
-## Pose angle checking and realtime feedback:
+# Pose angle checking and realtime feedback
 * The capablity to get the angle between the limbs of the user was implemented and tested.
 ```
 int frontKneeAngle = get_angle_limb(ref_poses[0],{12,13}, {12,11}); // clockwise angle from lower to upper limb
@@ -120,14 +120,14 @@ You can find the following data in the log:
 
 Real time feedback is also provided to the user as follows:
 ![](https://github.com/Aya-ZIbra/MyYogini/blob/master/keypoint_feedback.jpg?raw=true)
-## Scoring:
+# Scoring:
 Here, we propose a method to score the correctness of the pose based on the RMS (root square means) of the distances between the personalized target pose and the user's current pose.If all angles passed the check and the RMS error is below certain threshold, the pose is marked as "Yes".
 
-## Output and User Interface
+# Output and User Interface
 The application uses OpenCV to display the resulting frame with estimated poses and text report of **Inference time** - frames per second performance for the application.
 
 Our team went the extra mile to produce a mock-up UI. 
-### Mock UI
+## Mock UI
 Finally, our team went the extra mile to develop a mock UI on Adobe XD here:
 https://xd.adobe.com/view/10f45c9d-46f4-4996-5978-a250f45795f0-66c5/screen/68122f31-24c3-41fb-9d3e-3b0fc4ef53d0/Blog/
 Click the Home icon to load the mock UI - all features are not enabled so watch the video Prototype.mp4 here. 
@@ -141,10 +141,10 @@ The video below better illustrates the use of the UI:
 
 ![](https://github.com/Aya-ZIbra/MyYogini/blob/master/btomiqh4rl.gif?raw=true)
  
-## Future work
-# More personalized target pose
+# Future work
+## More personalized target pose
 So far, we have relied on the user's height, arms' length, and other physical dimensions to determine the target pose. Other factors could be taken care of in the future. For example, the center of gravity of a pregnant woman should be considered when calculating the 
 personalized pose. Also, if the user has any limitations due 
 
-# Reference flipping and lower limb confusion
+## Reference flipping and lower limb confusion
 One limitation in the current implementation is that the app doesn't detect if the side of the user is the same as that of the reference Guru. Furthermore, when the side is detected, the app should be flexible about which leg is at the front and which is at the back. 
