@@ -14,6 +14,8 @@ Following pre-trained model is used in the application:
 
 * `human-pose-estimation-0001`, which is a human pose estimation network, that produces two feature vectors. The algorithm uses these feature vectors to predict human poses.
 
+![](https://github.com/Aya-ZIbra/MyYogini/blob/master/keypoint_arrows_bugfixed2.jpg?raw=true)
+
 ## How It Works
 
 On the start-up, the application reads command line parameters and loads human pose estimation model. Upon getting a frame from the OpenCV VideoCapture, the application runs inference of human pose estimation model (optimized by OpenVINO toolkit and available as a pre-trained model on Intel model zoo). The model output is post-processed and the user's body keypoints are detected. The yoga pose will be analyzed against the pose of the Guru, BKS Iyengar who is the founder of the Iyengar Yoga method. Output will be an analyzed photo showing **a personalized version of the Guru's pose**. This analysis shows the user the exact changes needed to do the pose correctly. A scoring method is also proposed for a “Yes” or “No” realtime evaluation of your pose indicating whether it is correct or not.
@@ -123,7 +125,7 @@ You can find the following data in the log:
 >backKneeAngle = 177
 
 Real time feedback is also provided to the user as follows:
-![](https://github.com/Aya-ZIbra/MyYogini/blob/master/keypoint_feedback.jpg?raw=true)
+![](https://github.com/Aya-ZIbra/MyYogini/blob/master/keypoint_arrows_bugfixed2.jpg?raw=true)
 # Scoring:
 Here, we propose a method to score the correctness of the pose based on the RMS (root square means) of the distances between the personalized target pose and the user's current pose.If all angles passed the check and the RMS error is below certain threshold, the pose is marked as "Yes".
 
