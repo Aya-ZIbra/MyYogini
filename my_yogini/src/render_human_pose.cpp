@@ -63,6 +63,6 @@ void renderHumanPose(const std::vector<HumanPose>& poses, cv::Mat& image) {
             cv::fillConvexPoly(pane, polygon, colors[limbKeypointsId.second]);
         }
     }
-    cv::addWeighted(image, 0.4, pane, 0.6, 0, image);
+    cv::addWeighted(image, 0.7, pane, 0.3, 0, image);
 }
 }  // namespace human_pose_estimation
