@@ -142,7 +142,7 @@ int main(int argc, char* argv[]) {
             std::cout << "backKneeAngle = " << backKneeAngle<< std::endl;
 	    //std::vector<int> aya = extract_angles(ref_poses[0], {9,  11, 12});
             //std::cout << aya[9] << std::endl;
-            std::vector<HumanPose> scaled_poses = scaleHumanPose(ref_poses, poses);
+            std::vector<HumanPose> scaled_poses = scaleHumanPose(ref_poses, poses, restricted_angles);
             std::cout << "Done" << std::endl;
             double t2 = static_cast<double>(cv::getTickCount());
             if (inferenceTime == 0) {
