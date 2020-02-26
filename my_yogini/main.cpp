@@ -93,6 +93,7 @@ int main(int argc, char* argv[]) {
             videoWriter.open(FLAGS_o+"/output.mp4", cv::VideoWriter::fourcc('A','V','C','1'), 25, cv::Size(width, height), true);
         }
         
+	std::vector<int> restricted_angles = {3,6,9, 11, 12};
         cv::Mat image_ref;
         cv::VideoCapture cap_ref;
         // cap_ref.open("./from_Chris/AI-Yogini-Project/GoodWarrior1flipped.jpg");
@@ -107,6 +108,34 @@ int main(int argc, char* argv[]) {
             std::vector<HumanPose> poses = estimator.estimate(image);
             std::cout << "Done1" << std::endl;
             std::vector<HumanPose> ref_poses = estimator.estimate(image_ref);
+	// Adjust leg flexiblity
+            double deltax_ref = ref_poses[0].keypoints[10].x - ref_poses[0].keypoints[13].x;
+            int sign_ref = (deltax_ref > 0)-(deltax_ref < 0);
+            double deltax_inp =poses[0].keypoints[10].x - poses[0].keypoints[13].x;
+            int sign_inp = (deltax_inp > 0)-(deltax_inp < 0);
+            std::cout << sign_inp << '\t'<< sign_ref << std::endl;    
+            if(sign_inp != sign_ref){
+                // swap lower limb of the reference
+                std::swap(ref_poses[0].keypoints[10], ref_poses[0].keypoints[13]);
+                std::swap(ref_poses[0].keypoints[9], ref_poses[0].keypoints[12]);
+                std::swap(ref_poses[0].keypoints[8], ref_poses[0].keypoints[11]);
+                // change flexible angles accordingly
+                for (int i = 0; i < restricted_angles.size();i++) {
+                    switch (restricted_angles[i])  { 
+                        case 9: restricted_angles[i]= 12;
+                            break;
+                        case 12: restricted_angles[i]= 9;
+                            break; 
+                        case 11: restricted_angles[i]= 8;
+                            break;
+                        case 8: restricted_angles[i]= 11;
+                        default:  
+                            break;
+                    }
+                    std::cout << restricted_angles[i] << std::endl;
+                }
+                
+            }
             int frontKneeAngle = get_angle_limb(ref_poses[0],{12,13}, {12,11}); // clockwise angle from lower to upper limb
             std::cout << "frontKneeAngle = " << frontKneeAngle<< std::endl;
             int backKneeAngle =  get_angle_limb(ref_poses[0],{9,10}, {9,8}); // clockwise angle
@@ -139,6 +168,7 @@ int main(int argc, char* argv[]) {
 
             //renderHumanPose(poses, image);
             renderHumanPose(scaled_poses, image);
+ 	    draw_arrows(image, scaled_poses,poses);
            
             cv::Mat fpsPane(35, 300, CV_8UC3);
             fpsPane.setTo(cv::Scalar(153, 119, 76));
@@ -148,7 +178,20 @@ int main(int argc, char* argv[]) {
             fpsSs << "Inference time (ms): " << int(inferenceTime ) / 10.0f;
             cv::putText(image, fpsSs.str(), cv::Point(16, 32), cv::FONT_HERSHEY_COMPLEX, 0.6, cv::Scalar(0, 0, 255)); // ... */
             //cv::imshow("ICV Human Pose Estimation", image);
-            
+            std::stringstream angle_report = compare_angles(ref_poses, poses, restricted_angles);
+            std::string line;
+            int y = 60;
+            if (angle_report.str().empty()) {
+                line = "You did it! All angles are correct.";
+                cv::putText(image, line, cv::Point(16, y), cv::FONT_HERSHEY_COMPLEX, 0.6, cv::Scalar(0, 255, 0));
+            }
+            else{
+                while (std::getline(angle_report, line)) {
+                    // Process line
+                    cv::putText(image, line, cv::Point(16, y), cv::FONT_HERSHEY_COMPLEX, 0.6, cv::Scalar(255,0,0));
+                    y += 20;
+                }
+            }
             if (!FLAGS_o.empty()) {
                 cv::imwrite(FLAGS_o+"/keypoint.jpg",image);
                 videoWriter.write(image);
