@@ -148,7 +148,7 @@ The video below better illustrates the use of the UI:
 # Future work
 ## More personalized target pose
 So far, we have relied on the user's height, arms' length, and other physical dimensions to determine the target pose. Other factors could be taken care of in the future. For example, the center of gravity of a pregnant woman should be considered when calculating the 
-personalized pose. Also, if the user has any limitations due 
+personalized pose. Also, if the user has any limitations due to injury or lack of fitness.
 
 ## Reference flipping and lower limb confusion
 One limitation in the current implementation is that the app doesn't detect if the side of the user is the same as that of the reference Guru. Furthermore, when the side is detected, the app should be flexible about which leg is at the front and which is at the back. 
