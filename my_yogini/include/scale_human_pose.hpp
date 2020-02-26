@@ -8,7 +8,9 @@
 
 namespace human_pose_estimation {
     std::vector<int> extract_angles(HumanPose pose, std::vector<int> restricted_angles);
-    std::vector<HumanPose> scaleHumanPose(const std::vector<HumanPose>& ref_poses, const std::vector<HumanPose>& input_poses);
+    void draw_arrows(cv::Mat& image, const std::vector<HumanPose>& scaled_poses, const std::vector<HumanPose>& input_poses);
+    std::vector<HumanPose> scaleHumanPose(const std::vector<HumanPose>& ref_poses, const std::vector<HumanPose>& input_poses, std::vector<int> restricted_angles);
+    std::stringstream compare_angles(const std::vector<HumanPose>& ref_poses, const std::vector<HumanPose>& input_poses, std::vector<int> restricted_angles);
     int get_angle_limb(HumanPose pose, std::pair<int, int> limbKeypointsId1, std::pair<int, int> limbKeypointsId2);
     struct limb_angle {
     limb_angle(const std::pair<int, int>& limbKeypointsId1 = std::pair<int, int>(), 
