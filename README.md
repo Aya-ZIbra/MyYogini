@@ -14,7 +14,7 @@ Following pre-trained model is used in the application:
 
 * `human-pose-estimation-0001`, which is a human pose estimation network, that produces two feature vectors. The algorithm uses these feature vectors to predict human poses.
 
-![](https://github.com/Aya-ZIbra/MyYogini/blob/master/keypoint_arrows_bugfixed2.jpg?raw=true)
+![](https://github.com/Aya-ZIbra/MyYogini/blob/master/resources/keypoint_arrows_bugfixed2.jpg?raw=true)
 
 ## How It Works
 
