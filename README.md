@@ -148,15 +148,6 @@ Here is what you finally get in our image example**:
 
 ![](https://github.com/Aya-ZIbra/MyYogini/blob/master/resources/keypoint_shifted.jpg?raw=true)
 
-## What does this mean for the user?
-It means a lot! 
-In our example, the lady's mistakes are all captured by **MyYogini**. Let's quickly compare the original pose* with the corrected one \*\*. 
-* The head and neck need to move backwards instead of leaning to front. 
-* The trunck needs to move downward for the front knee joint to be at 90 degrees.
-* Even the elevated back ankle is detected and corrected in the final output pose. 
-
-> **Your ultimate fantastic Yoga trainer!**
-
 ### Pose angle checking 
 * The capablity to get the angle between the limbs of the user was implemented and tested.
 ```
@@ -172,10 +163,20 @@ You can find the following data in the log:
 ### Scoring
 Here, we propose a method to score the correctness of the pose based on the RMS (root square means) of the distances between the personalized target pose and the user's current pose.If all angles passed the check and the RMS error is below certain threshold, the pose is marked as "Yes".
 
-### Output and User Interface
+
+## Output and User Interface
 The application uses OpenCV to display the resulting frame with estimated poses and text report of **Inference time** - ms for the application. Real time feedback is also provided to the user including angle corrections, the target personalized pose overlaid on the user's image/ video, arrows to show the changes needed to reach the target pose. 
 
 ![](https://github.com/Aya-ZIbra/MyYogini/blob/master/resources/keypoint_arrows_bugfixed2.jpg?raw=true)
+
+### What does this mean for the user?
+It means a lot! 
+In the example above, the lady's mistakes are all captured by **MyYogini**. Let's quickly compare the original pose* with the corrected one \*\*. 
+* The head and neck need to move backwards instead of leaning to front. 
+* The trunck needs to move downwards for the front knee joint to be at 90 degrees.
+* Even the elevated back ankle is detected and corrected in the final output pose. 
+
+> **Your ultimate fantastic Yoga trainer!**
 
 Another example for Warrior2 pose:
 
