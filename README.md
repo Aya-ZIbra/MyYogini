@@ -4,7 +4,7 @@ Being an Edge Application, **MyYogini** will evaluate the yoga poses of the indi
 
 > We got this application running three platforms(Linux, Windows, Raspberry Pi +NCS2) and created a Mock UI. 
 
-> We got exclusive access to EDGE AI intel DevCloud:  https://software.intel.com/en-us/devcloud/edge.
+>  We ran the workload on several edge compute nodes represented in the IoT DevCloud EDGE AI intel DevCloud and compared performance:  https://software.intel.com/en-us/devcloud/edge.
 
 > Here is a link to our project proposal on Intel DevMesh : https://devmesh.intel.com/projects/myyogini
 
