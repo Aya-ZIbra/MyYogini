@@ -13,6 +13,7 @@ static const char help_message[] = "Print a usage message.";
 /// @brief Message for video argument
 static const char video_message[] = "Required. Path to a video. Default value is \"cam\" to work with camera.";
 static const char compare_message[] = "Required. Path to a photo to compare to. ";
+static const char pose_message[] = "Required. Yoga pose. ";
 static const char output_message[] = "Optional. Path to the output directory. ";
 /// @brief Message for model argument
 static const char human_pose_estimation_model_message[] = "Required. Path to the Human Pose Estimation model (.xml) file.";
@@ -29,6 +30,8 @@ static const char performance_counter_message[] = "Optional. Enable per-layer pe
 /// @brief Message for not showing processed video
 static const char no_show_processed_video[] = "Optional. Do not show processed video.";
 
+/// @brief Message for not showing text on frame
+static const char no_text_message[] = "Optional. Do not show text on frame.";
 /// @brief Message for raw output
 static const char raw_output_message[] = "Optional. Output inference results as raw values.";
 
@@ -41,8 +44,11 @@ DEFINE_string(i, "cam", video_message);
 
 /// @brief Defines parameter for setting video file <br> to compare to
 /// It is a required parameter
-DEFINE_string(c, "./from_Chris/AI-Yogini-Project/GoodWarrior1flipped.jpg", video_message);
+DEFINE_string(c, "", compare_message);
 
+/// @brief Defines parameter for setting video file <br> to compare to
+/// It is a required parameter
+DEFINE_string(p, "", pose_message);
 /// @brief Defines parameter for human pose estimation model file <br>
 /// It is a required parameter
 DEFINE_string(m, "", human_pose_estimation_model_message);
@@ -67,6 +73,9 @@ DEFINE_bool(no_show, false, no_show_processed_video);
 /// It is an optional parameter
 DEFINE_bool(r, false, raw_output_message);
 
+/// @brief Defines flag for displaying text <br>
+/// It is an optional parameter
+DEFINE_bool(no_text, false, no_text_message);
 /**
 * @brief This function shows a help message
 */
@@ -77,11 +86,13 @@ static void showUsage() {
     std::cout << std::endl;
     std::cout << "    -h                         " << help_message << std::endl;
     std::cout << "    -i \"<path>\"                " << video_message << std::endl;
-	std::cout << "    -c \"<path>\"                " << compare_message << std::endl;
+    std::cout << "    -c \"<path>\"                " << compare_message << std::endl;
+    std::cout << "    -p \"<pose>\"                " << pose_message << std::endl;
     std::cout << "    -m \"<path>\"                " << human_pose_estimation_model_message << std::endl;
     std::cout << "    -o \"<path>\"                " << output_message << std::endl;
     std::cout << "    -d \"<device>\"              " << target_device_message << std::endl;
     std::cout << "    -pc                        " << performance_counter_message << std::endl;
     std::cout << "    -no_show                   " << no_show_processed_video << std::endl;
+    std::cout << "    -no_text                  " <<  no_text_message << std::endl;
     std::cout << "    -r                         " << raw_output_message << std::endl;
 }
