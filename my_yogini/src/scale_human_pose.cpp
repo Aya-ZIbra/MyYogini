@@ -69,7 +69,7 @@ HumanPose tieToFloor(HumanPose scaled_pose, HumanPose pose, std::vector<int> ref
    double Y_ground= ( pose.keypoints[10].y + pose.keypoints[13].y)/2;
     // leg 1: 11 12 13
     if (ref_angles[11] == -1){
-        std::cout << "Inside Tie: Check1" << std::endl;
+        std::cout << "Inside Tie 11: Check1" << std::endl;
         // rotate 13 around 11
         cv::Point2f center = scaled_pose.keypoints[11];
         //std::cout << scaled_pose.keypoints[8].x <<", "<< scaled_pose.keypoints[8].y<< std::endl;
@@ -78,9 +78,17 @@ HumanPose tieToFloor(HumanPose scaled_pose, HumanPose pose, std::vector<int> ref
         double L2 = difference.x * difference.x + difference.y * difference.y;
         double delta_y10 = center.y - y10; // 10 new and 8 
         double delta_x10 = std::sqrt(L2 - delta_y10*delta_y10 ); // 13 new and 11 
- 
-        cv::Point2f pt10 (center.x - delta_x10, y10);
-        scaled_pose.keypoints[13] = pt10; // 13 moved
+        
+         std::cout << "y dlta"<< y10-scaled_pose.keypoints[13].y << std::endl;
+        if (scaled_pose.keypoints[12].x >scaled_pose.keypoints[9].x){
+            cv::Point2f pt10 (center.x + delta_x10, y10);
+            scaled_pose.keypoints[13] = pt10; // 13 moved
+        }
+        else {
+            cv::Point2f pt10 (center.x - delta_x10, y10);
+             scaled_pose.keypoints[13] = pt10; // 13 moved
+        }
+       
         
         std::cout << "Inside Tie: Check2" << std::endl;
         // get rotation angle about 11
@@ -91,12 +99,12 @@ HumanPose tieToFloor(HumanPose scaled_pose, HumanPose pose, std::vector<int> ref
         
         scaled_pose.keypoints[12] = rotate2d(scaled_pose.keypoints[12] - center, rot_angle) + center;
         
-        std::cout << "Inside Tie: Check4" << std::endl;
+        std::cout << "Inside Tie : Check4" << std::endl;
         
     }
     // leg 2: 8 9 10
     if (ref_angles[8] == -1){
-        std::cout << "Inside Tie: Check1" << std::endl;
+        std::cout << "Inside Tie 8: Check1" << std::endl;
         // rotate 10 around 8
         cv::Point2f center = scaled_pose.keypoints[8];
         //std::cout << scaled_pose.keypoints[8].x <<", "<< scaled_pose.keypoints[8].y<< std::endl;
@@ -106,8 +114,14 @@ HumanPose tieToFloor(HumanPose scaled_pose, HumanPose pose, std::vector<int> ref
         double delta_y10 = center.y - y10; // 10 new and 8 
         double delta_x10 = std::sqrt(L2 - delta_y10*delta_y10 ); // 10 new and 8 
  
-        cv::Point2f pt10 (center.x - delta_x10, y10);
-        scaled_pose.keypoints[10] = pt10; // 10 moved
+        if (scaled_pose.keypoints[9].x >scaled_pose.keypoints[12].x){
+            cv::Point2f pt10 (center.x + delta_x10, y10);
+            scaled_pose.keypoints[10] = pt10; // 13 moved
+        }
+        else {
+            cv::Point2f pt10 (center.x - delta_x10, y10);
+             scaled_pose.keypoints[10] = pt10; // 10 moved
+        }
         
         std::cout << "Inside Tie: Check2" << std::endl;
         // get rotation angle about 8
@@ -208,7 +222,7 @@ std::vector<HumanPose> scaleHumanPose(const std::vector<HumanPose>& ref_poses, c
             cv::Point2f delta (L * difference_ref.x/ L_ref, L * difference_ref.y/ L_ref);
             scaled_pose.keypoints[limbKeypointsId.second] = scaled_pose.keypoints[limbKeypointsId.first] + delta;
         }
-        std::vector<int> ref_angles = extract_angles(ref_poses[0], {3,6,9,  8, 12}); // for warrior 1 flipped
+        std::vector<int> ref_angles = extract_angles(ref_poses[0], restricted_angles); // for warrior 1 flipped
         std::cout << "Check2" << std::endl;
         HumanPose scaled_pose_tied = tieToFloor(scaled_pose, pose, ref_angles);
         std::cout << "Check3" << std::endl;
