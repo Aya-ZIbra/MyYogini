@@ -56,6 +56,9 @@ For example, to do inference on a CPU, run the following command:
 ```sh
 ./my_yogini -i ./from_Chris/AI-Yogini-Project/badWarrior11.jpg -c ./from_Chris/AI-Yogini-Project/GoodWarrior1flipped.jpg -m ./models/human-pose-estimation-0001/FP32/human-pose-estimation-0001.xml -o core -no_show -r
 ```
+A run script and the latest version of the executable are provided in the repository. Make sure you are in the MyYogini directory.
+> ./run.sh
+
 ## Geometric heuristics used for pose personalization and correction
 The input to our application is a camera stream of the user doing a Yoga pose. The application output is a personalized target pose that considers the user's height, weight, etc. 
 The human pose model outputs the keypoints of the body. It predicts a pose: body skeleton, which consists of keypoints and connections between them, for every person in an input video. The pose may contain up to 18 keypoints: *ears, eyes, nose, neck, shoulders, elbows, wrists, hips, knees*, and *ankles*. 
