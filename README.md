@@ -20,14 +20,9 @@ Following pre-trained model is used in the application:
 
 On the start-up, the application reads command line parameters and loads human pose estimation model. Upon getting a frame from the OpenCV VideoCapture, the application runs inference of human pose estimation model (optimized by OpenVINO toolkit and available as a pre-trained model on Intel model zoo). The model output is post-processed and the user's body keypoints are detected. The yoga pose will be analyzed against the pose of the Guru, BKS Iyengar who is the founder of the Iyengar Yoga method. Output will be an analyzed photo showing **a personalized version of the Guru's pose**. This analysis shows the user the exact changes needed to do the pose correctly. A scoring method is also proposed for a “Yes” or “No” realtime evaluation of your pose indicating whether it is correct or not.
 
-## Building the Project [To be verified]
-For windows and linux: 
-1. Run build_windows.bat file for windows / build_linux.sh on linux platform.
-2. A build folder will be created inside the main project directory.
-3. Locate the my_yogini.exe at .\build\intel64\Release
-
-## Running
-
+## Running the application
+### How to run the project?
+### What are the various command line parameters which could be changed and how to change them.
 Running the application with the `-h` option yields the following usage message:
 
 ```sh
@@ -58,6 +53,12 @@ For example, to do inference on a CPU, run the following command:
 ```
 A run script and the latest version of the executable are provided in the repository. Make sure you are in the MyYogini directory.
 > ./run.sh
+
+## Building the Project [To be verified]
+For windows and linux: 
+1. Run build_windows.bat file for windows / build_linux.sh on linux platform.
+2. A build folder will be created inside the main project directory.
+3. Locate the my_yogini.exe at .\build\intel64\Release
 
 ## Geometric heuristics used for pose personalization and correction
 The input to our application is a camera stream of the user doing a Yoga pose. The application output is a personalized target pose that considers the user's height, weight, etc. 
