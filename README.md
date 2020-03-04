@@ -31,23 +31,20 @@ For windows and linux:
 Running the application with the `-h` option yields the following usage message:
 
 ```sh
-./my_yogini.exe -h
-InferenceEngine:
-    API version ............ <version>
-    Build .................. <number>
-
 my_yogini [OPTION]
 Options:
 
     -h                         Print a usage message.
     -i "<path>"                Required. Path to a video. Default value is "cam" to work with camera.
     -c "<path>"                Required. Path to a photo to compare to.
-    -o "<path>"                Optional. Path to the output directory.
+    -p "<pose>"                Required. Yoga pose.
     -m "<path>"                Required. Path to the Human Pose Estimation model (.xml) file.
+    -o "<path>"                Optional. Path to the output directory.
     -d "<device>"              Optional. Specify the target device for Human Pose Estimation (the list of available devices is shown below). Default value is CPU. Use "-d HETERO:<comma-separated_devices_list>" format to specify HETERO plugin. The application looks for a suitable plugin for the specified device.
     -pc                        Optional. Enable per-layer performance report.
     -no_show                   Optional. Do not show processed video.
-    -r                         Optional. Output inference results as raw values
+    -no_text                  Optional. Do not show text on frame.
+    -r                         Optional. Output inference results as raw values.
 ```
 
 Running the application with an empty list of options yields an error message.
