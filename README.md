@@ -20,7 +20,7 @@ Following pre-trained model is used in the application:
 
 On the start-up, the application reads command line parameters and loads human pose estimation model. Upon getting a frame from the OpenCV VideoCapture, the application runs inference of human pose estimation model (optimized by OpenVINO toolkit and available as a pre-trained model on Intel model zoo). The model output is post-processed and the user's body keypoints are detected. The yoga pose will be analyzed against the pose of the Guru, BKS Iyengar who is the founder of the Iyengar Yoga method. Output will be an analyzed photo showing **a personalized version of the Guru's pose**. This analysis shows the user the exact changes needed to do the pose correctly. A scoring method is also proposed for a “Yes” or “No” realtime evaluation of your pose indicating whether it is correct or not.
 
-## Building the Project
+## Building the Project [To be verified]
 For windows and linux: 
 1. Run build_windows.bat file for windows / build_linux.sh on linux platform.
 2. A build folder will be created inside the main project directory.
