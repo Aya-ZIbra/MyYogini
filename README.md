@@ -44,15 +44,27 @@ Options:
 
 Running the application with an empty list of options yields an error message.
 
-To run the application, you can use public or pre-trained models. To download the pre-trained models, use the OpenVINO [Model Downloader](../../tools/downloader/README.md) or go to [https://download.01.org/opencv/](https://download.01.org/opencv/).
+### The description of the arguments used in the argument parser:
+* -m location of the pre-trained IR model which has been pre-processed using the model optimizer. There is automated support built in this argument to support FP32 for human pose estimation.
+
+* -i location of the input video stream or image.
+* -c image of guru's pose to compare with.
+* -p pose name to further analyze the user's pose based on intended pose. Currently, two poses are supported, "warrior1" or "warrior2". Other poses can be compared to the guru's image directly and still provide feedback to the user. 
+* -o location where the output file with inference needs to be stored (results/[pose]). The directory should be an existing one.
+* -d type of Hardware Acceleration (CPU, GPU, MYRIAD, HDDL or HETERO:FPGA,CPU)
 
 For example, to do inference on a CPU, run the following command:
 
 ```sh
 ./my_yogini -i ./from_Chris/AI-Yogini-Project/badWarrior11.jpg -c ./from_Chris/AI-Yogini-Project/GoodWarrior1flipped.jpg -m ./models/human-pose-estimation-0001/FP32/human-pose-estimation-0001.xml -o core -no_show -r
 ```
-A run script and the latest version of the executable are provided in the repository. Make sure you are in the MyYogini directory.
-> ./run.sh
+A run script along with all needed files is available at the demo directory. Make sure you are in the demo directory before running the script. 
+```
+> cd demo
+> ./run.sh CPU
+> cd output/warrior1/
+```
+The output image/video is found at:  **demo/output/warrior1.**
 
 ## Building the Project [To be verified]
 For windows and linux: 
