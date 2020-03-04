@@ -58,6 +58,7 @@ For example, to do inference on a CPU, run the following command:
 ```sh
 ./my_yogini -i ./from_Chris/AI-Yogini-Project/badWarrior11.jpg -c ./from_Chris/AI-Yogini-Project/GoodWarrior1flipped.jpg -m ./models/human-pose-estimation-0001/FP32/human-pose-estimation-0001.xml -o core -no_show -r
 ```
+### Demo
 A run script along with all needed files is available at the demo directory. Make sure you are in the demo directory before running the script. 
 ```
 > cd demo
