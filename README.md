@@ -69,21 +69,21 @@ We have developed heuristics algorithms to detect the correctness of the user's 
 ```
 std::vector<HumanPose> ref_poses = estimator.estimate(image_ref);
 ```
-![](https://github.com/Aya-ZIbra/MyYogini/blob/master/goodWarrior1_kp.jpg?raw=true)
+![](https://github.com/Aya-ZIbra/MyYogini/blob/master/resources/goodWarrior1_kp.jpg?raw=true)
 >**NOTE**: In the current implemenation, we read in and run inference to extract the Guru's pose every time the pose is changed. In the future, the keypoints maps of all the Yoga poses would be saved to a file and the map of the chosen pose will be passed to the engine. This will help reduce the total inference time for a more responsive app. 
  
  * Extract the 17 keypoints of the user's pose.* 
 ```
 std::vector<HumanPose> poses = estimator.estimate(image);
 ```
-![](https://github.com/Aya-ZIbra/MyYogini/blob/master/badWarrior1_kp.jpg?raw=true)
+![](https://github.com/Aya-ZIbra/MyYogini/blob/master/resources/badWarrior1_kp.jpg?raw=true)
 
 * Scale and adjust the pose of the Guru to the dimensions of the user. This is a neatly written function added in a new cpp file (scale_human_pose.cpp). It simply loops over all the body parts of the user and creates the correct position taking into consideration the dimensions of the user and the relative position of the body keypoints.  
 ```
 std::vector<HumanPose> scaled_poses = scaleHumanPose(ref_poses, poses);
 ```
 Here is the output of the first versiont of this function overlaid on the original user's image. 
-![](https://github.com/Aya-ZIbra/MyYogini/blob/master/keypoint_promising1.jpg?raw=true)
+![](https://github.com/Aya-ZIbra/MyYogini/blob/master/resources/keypoint_promising1.jpg?raw=true)
 
 * You may have noticed that the corrected pose in the above frame has a flying right foot. The reason for this miscalculation is that the angles at the leg joints (knees and hips) need to be re-adjusted for the user's size (height). For that purpose, we added a new function to do the neccessary pose adjustments such that the feet stay tied to the ground.
 This function takes as input the scaled pose from our earlier calculations, the original pose (to find out where the ground is) and finally a list of the angles extracted from this specific Yoga pose, for example, warrior1, warrior2, etc. This list is used to determine which angles are flexible and adjust them to give a realistic expectation of the user's position given their size. 
@@ -96,7 +96,7 @@ HumanPose scaled_pose_tied = tieToFloor(scaled_pose, pose, ref_angles);
 
 Here is what you finally get in our image example**:
 
-![](https://github.com/Aya-ZIbra/MyYogini/blob/master/keypoint_shifted.jpg?raw=true)
+![](https://github.com/Aya-ZIbra/MyYogini/blob/master/resources/keypoint_shifted.jpg?raw=true)
 
 # What does this mean for the user?
 It means a lot! 
@@ -125,7 +125,11 @@ You can find the following data in the log:
 >backKneeAngle = 177
 
 Real time feedback is also provided to the user as follows:
-![](https://github.com/Aya-ZIbra/MyYogini/blob/master/keypoint_arrows_bugfixed2.jpg?raw=true)
+
+![](https://github.com/Aya-ZIbra/MyYogini/blob/master/resources/keypoint_arrows_bugfixed2.jpg?raw=true)
+Another example for Warrior2 pose:
+
+![](https://github.com/Aya-ZIbra/MyYogini/blob/master/resources/keypoint_warrior2.jpg?raw=true)
 # Scoring:
 Here, we propose a method to score the correctness of the pose based on the RMS (root square means) of the distances between the personalized target pose and the user's current pose.If all angles passed the check and the RMS error is below certain threshold, the pose is marked as "Yes".
 
@@ -145,7 +149,7 @@ Click the Home icon to load the mock UI - all features are not enabled so watch 
 
 The video below better illustrates the use of the UI:
 
-![](https://github.com/Aya-ZIbra/MyYogini/blob/master/btomiqh4rl.gif?raw=true)
+![](https://github.com/Aya-ZIbra/MyYogini/blob/master/resources/btomiqh4rl.gif?raw=true)
  
 # Future work
 ## More personalized target pose
