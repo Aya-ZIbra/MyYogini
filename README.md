@@ -157,9 +157,7 @@ In our example, the lady's mistakes are all captured by **MyYogini**. Let's quic
 
 > **Your ultimate fantastic Yoga trainer!**
 
-
-
-### Pose angle checking and realtime feedback
+### Pose angle checking 
 * The capablity to get the angle between the limbs of the user was implemented and tested.
 ```
 int frontKneeAngle = get_angle_limb(ref_poses[0],{12,13}, {12,11}); // clockwise angle from lower to upper limb
@@ -171,17 +169,17 @@ You can find the following data in the log:
 >frontKneeAngle = 96
 >backKneeAngle = 177
 
-Real time feedback is also provided to the user as follows:
-
-![](https://github.com/Aya-ZIbra/MyYogini/blob/master/resources/keypoint_arrows_bugfixed2.jpg?raw=true)
-Another example for Warrior2 pose:
-
-![](https://github.com/Aya-ZIbra/MyYogini/blob/master/resources/keypoint_warrior2.jpg?raw=true)
 ### Scoring
 Here, we propose a method to score the correctness of the pose based on the RMS (root square means) of the distances between the personalized target pose and the user's current pose.If all angles passed the check and the RMS error is below certain threshold, the pose is marked as "Yes".
 
-## Output and User Interface
-The application uses OpenCV to display the resulting frame with estimated poses and text report of **Inference time** - frames per second performance for the application.
+### Output and User Interface
+The application uses OpenCV to display the resulting frame with estimated poses and text report of **Inference time** - ms for the application. Real time feedback is also provided to the user including angle corrections, the target personalized pose overlaid on the user's image/ video, arrows to show the changes needed to reach the target pose. 
+
+![](https://github.com/Aya-ZIbra/MyYogini/blob/master/resources/keypoint_arrows_bugfixed2.jpg?raw=true)
+
+Another example for Warrior2 pose:
+
+![](https://github.com/Aya-ZIbra/MyYogini/blob/master/resources/keypoint_warrior2.jpg?raw=true)
 
 Our team went the extra mile to produce a mock-up UI. 
 ### Mock UI
