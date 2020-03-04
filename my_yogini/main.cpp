@@ -53,7 +53,7 @@ bool ParseAndCheckCommandLine(int argc, char* argv[]) {
 int main(int argc, char* argv[]) {
     try {
         std::cout << "InferenceEngine: " << GetInferenceEngineVersion() << std::endl;
-		cout << FLAGS_c << endl;
+		
 
         // ------------------------------ Parsing and validation of input args ---------------------------------
         if (!ParseAndCheckCommandLine(argc, argv)) {
@@ -62,7 +62,8 @@ int main(int argc, char* argv[]) {
 
         HumanPoseEstimator estimator(FLAGS_m, FLAGS_d, FLAGS_pc);
         std::cout <<FLAGS_i<< std::endl;
-		
+		cout << FLAGS_c << endl;
+        cout << FLAGS_p << endl;
         cv::VideoCapture cap;
         if (!(FLAGS_i == "cam" ? cap.open(0) : cap.open(FLAGS_i))) {
             throw std::logic_error("Cannot open input file or camera: " + FLAGS_i);
@@ -89,14 +90,21 @@ int main(int argc, char* argv[]) {
 
         cv::VideoWriter videoWriter;
         if (!FLAGS_o.empty()) {
-            std::cout << "Output file exists" << std::endl;
+            std::cout << "Output directory exists" << std::endl;
             videoWriter.open(FLAGS_o+"/output.mp4", cv::VideoWriter::fourcc('A','V','C','1'), 25, cv::Size(width, height), true);
         }
-        
-	std::vector<int> restricted_angles = {3,6,9, 11, 12};
+        std::vector<int> restricted_angles;
+        if (FLAGS_p == "warrior1"){
+            restricted_angles =  {3,6,9, 11, 12}; // w1
+        }
+        else if (FLAGS_p == "warrior2"){
+            restricted_angles = {3,6,9, 8, 12};// w2
+        }
+        else{
+            restricted_angles = {8,11}; 
+        }
         cv::Mat image_ref;
         cv::VideoCapture cap_ref;
-        // cap_ref.open("./from_Chris/AI-Yogini-Project/GoodWarrior1flipped.jpg");
 		cap_ref.open(FLAGS_c);
         cap_ref.read(image_ref);
         estimator.estimate(image_ref);
@@ -120,7 +128,7 @@ int main(int argc, char* argv[]) {
                 std::swap(ref_poses[0].keypoints[9], ref_poses[0].keypoints[12]);
                 std::swap(ref_poses[0].keypoints[8], ref_poses[0].keypoints[11]);
                 // change flexible angles accordingly
-                for (int i = 0; i < restricted_angles.size();i++) {
+                for (unsigned int i = 0; i < restricted_angles.size();i++) {
                     switch (restricted_angles[i])  { 
                         case 9: restricted_angles[i]= 12;
                             break;
@@ -132,7 +140,6 @@ int main(int argc, char* argv[]) {
                         default:  
                             break;
                     }
-                    std::cout << restricted_angles[i] << std::endl;
                 }
                 
             }
@@ -168,17 +175,24 @@ int main(int argc, char* argv[]) {
 
             //renderHumanPose(poses, image);
             renderHumanPose(scaled_poses, image);
+            std::cout << "rendered scaled pose successfully" << std::endl;
  	    draw_arrows(image, scaled_poses,poses);
-           
-            cv::Mat fpsPane(35, 300, CV_8UC3);
-            fpsPane.setTo(cv::Scalar(153, 119, 76));
-            cv::Mat srcRegion = image(cv::Rect(8, 8, fpsPane.cols, fpsPane.rows));
-            cv::addWeighted(srcRegion, 0.4, fpsPane, 0.6, 0, srcRegion);
+            std::cout << "Arrows drawn successfully" << std::endl;
             std::stringstream fpsSs;
+            std::stringstream angle_report= compare_angles(ref_poses, poses, restricted_angles);
+            std::cout << "Angles compared successfully" << std::endl;
+            
+            if(!FLAGS_no_text){
+            //cv::Mat fpsPane(35, 300, CV_8UC3);
+            //fpsPane.setTo(cv::Scalar(153, 119, 76));
+            //cv::Mat srcRegion = image(cv::Rect(8, 8, fpsPane.cols, fpsPane.rows));
+            //cv::addWeighted(srcRegion, 0.4, fpsPane, 0.6, 0, srcRegion);
+            
             fpsSs << "Inference time (ms): " << int(inferenceTime ) / 10.0f;
-            cv::putText(image, fpsSs.str(), cv::Point(16, 32), cv::FONT_HERSHEY_COMPLEX, 0.6, cv::Scalar(0, 0, 255)); // ... */
-            //cv::imshow("ICV Human Pose Estimation", image);
-            std::stringstream angle_report = compare_angles(ref_poses, poses, restricted_angles);
+            cv::putText(image, fpsSs.str(), cv::Point(16, 32), cv::FONT_HERSHEY_COMPLEX, 0.6, cv::Scalar(0, 0, 255)); 
+            
+            std::cout << "inference time printed successfully" << std::endl;
+            
             std::string line;
             int y = 60;
             if (angle_report.str().empty()) {
@@ -192,8 +206,10 @@ int main(int argc, char* argv[]) {
                     y += 20;
                 }
             }
+            }
             if (!FLAGS_o.empty()) {
                 cv::imwrite(FLAGS_o+"/keypoint.jpg",image);
+                std::cout << "Image written to " << FLAGS_o <<"/keypoint.jpg"<< std::endl;
                 videoWriter.write(image);
                 /* if single_image_mode: 
             cv::imwrite('output_image.jpg', image)
