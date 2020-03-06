@@ -68,10 +68,71 @@ A run script along with all needed files is available at the demo directory. Mak
 The output image/video is found at:  **demo/output/warrior1.**
 
 ## Building the Project [To be verified]
-For windows and linux: 
+# For windows and linux: 
 1. Run build_windows.bat file for windows / build_linux.sh on linux platform.
 2. A build folder will be created inside the main project directory.
 3. Locate the my_yogini.exe at .\build\intel64\Release
+
+# For Raspberry PI and Intel NCS2
+Validated Hardware
+
+1.	Raspberry Pi* 3B+ or Pi 4B board with ARM* ARMv7-A CPU architecture. (Check that uname -m returns armv7l.)
+2.	Intel® Movidius™ Neural Compute Stick: Intel® Neural Compute Stick 2
+
+Build steps for PI 4 with Intel NCS2
+
+1.	Install OpenVINO™ toolkit for Raspbian* OS by following the link below
+https://docs.openvinotoolkit.org/latest/_docs_install_guides_installing_openvino_raspbian.html#install-package
+	Note: 
+Verified OpenVINO version: /2019/R3_cb6cad9663aea3d282e0e8b3e0bf359df665d5d0
+
+2.	Create the project folder and extract the project: e.g. /home/pi/ncs2/MyYogini-master
+3.	Follow the following steps to build the project – for Raspberry PI 4 
+
+```sh
+pi@raspberrypi:~/ncs2/MyYogini-master $ mkdir build && cd build
+
+pi@raspberrypi:~/ncs2/MyYogini-master/build $ cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_CXX_FLAGS="-march=armv7-a" ~/ncs2/MyYogini-master
+
+pi@raspberrypi:~/ncs2/MyYogini-master/build $ make -j2
+
+pi@raspberrypi:~/ncs2/MyYogini-master/build $ mkdir core
+
+pi@raspberrypi:~/ncs2/MyYogini-master/build $ cp -avr ~/ncs2/MyYogini-master/my_yogini/from_Chris/ ./my_yogini/
+```
+4.	Running the app
+
+pi@raspberrypi:~/ncs2/MyYogini-master/build $ ./armv7l/Release/my_yogini -i ./my_yogini/from_Chris/AI-Yogini-Project/badWarrior11.jpg -c ./my_yogini/from_Chris/AI-Yogini-Project/GoodWarrior1flipped.jpg -m ~/ncs2/MyYogini-master/models/human-pose-estimation-0001/FP16/human-pose-estimation-0001.xml -d MYRIAD -o core -no_show -r
+
+For Rasperry PI 3B+ -- Special Steps
+
+1.	The “build” folder needs to be created outside the source code directory.
+Assume that the source directory is /home/pi/ncs2/MyYogini-master:
+If the source directory is /home/pi/ncs2/MyYogini-master, the build directory could be  /home/pi/ncs2/build
+
+2.	Command to copy the pre-saved photos – example. 
+
+cp -r ~/ncs2/MyYogini-master/my_yogini/from_Chris/ ./my_yogini/
+
+```sh
+
+Command line Examples for PI 3 B+:
+
+pi@raspberrypi:~ $ cd ncs2
+
+pi@raspberrypi:~ $ mkdir build && cd build
+
+pi@raspberrypi:~/ncs2/build $ cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_CXX_FLAGS="-march=armv7-a" /home/pi/ncs2/MyYogini-master
+
+pi@raspberrypi:~/ncs2/build $ make -j2
+
+pi@raspberrypi:~/ncs2/build $ mkdir core
+
+pi@raspberrypi:~/ncs2/build $ cp -r ~/ncs2/MyYogini-master/my_yogini/from_Chris/ ./my_yogini/
+
+pi@raspberrypi:~/build $./armv7l/Release/my_yogini -i ./my_yogini/from_Chris/AI-Yogini-Project/badWarrior11.jpg -c ./my_yogini/from_Chris/AI-Yogini-Project/GoodWarrior1flipped.jpg -m ~/ncs2/MyYogini-master/models/human-pose-estimation-0001/FP16/human-pose-estimation-0001.xml -d MYRIAD -o core -no_show -r
+
+```
 
 ## Performance on different platforms
 ### Intel Edge DevCloud
@@ -106,8 +167,13 @@ mkdir -p output/warrior1
 |**Edge compute node with Intel® Core CPU and using the onboard Intel® GPU:** Intel® HD Graphics 530 card integrated with the CPU|3271.6|
 |**Edge compute node with [UP Squared Grove IoT Development Kit](https://software.intel.com/en-us/iot/hardware/up-squared-grove-dev-kit)**|17865|
 
+### Performance verified on the real edge compute nodes [RaspberryPI + NCS2]: 
 
-### With NCS2+ RasberryPi: .....................
+|Device  | Inference time (ms) |
+| ------------- | ------------- |
+| **Edge compute node with an Intel® CPU:** [Core i7 9th Gen Ubutu 18.0.4 on VM]| 35.8|
+|**Edge compute node Raspberry PI 4 with Intel® NCS 2** ([Intel Neural Compute Stick 2](https://software.intel.com/en-us/neural-compute-stick))|765|
+|**Edge compute node Raspberry PI 3B+ with Intel® NCS 2** ([Intel Neural Compute Stick 2]|1653.2|
 
 ## Geometric heuristics used for pose personalization and correction
 The input to our application is a camera stream of the user doing a Yoga pose. The application output is a personalized target pose that considers the user's height, weight, etc. 
