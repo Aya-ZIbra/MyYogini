@@ -175,10 +175,14 @@ This means that the hardware resource is very important at the edge devices espe
 
 |Device  |Hardware Specification|Inference time (ms) |
 | ------------- | ------------- |------------- |
-| **Edge compute node with an Intel® CPU:** Ubutu 18.0.4 on Virtual Machine|Core i7 9th Gen\2 cores@2.6GHz with 4GB RAM|35.8|
-|**Edge compute node Raspberry PI 4 with Intel® NCS 2 on USB3 port** ([Intel Neural Compute Stick 2](https://software.intel.com/en-us/neural-compute-stick))|ARM Cortex-A72\4 cores@1.5GHz with 4GB RAM|765|
-|**Edge compute node Raspberry PI 4 with Intel® NCS 2 on USB2 port** ([Intel Neural Compute Stick 2](https://software.intel.com/en-us/neural-compute-stick))|ARM Cortex-A72\4 cores@1.5GHz with 4GB RAM|828|
-|**Edge compute node Raspberry PI 3B+ with Intel® NCS 2** ([Intel Neural Compute Stick 2](https://software.intel.com/en-us/neural-compute-stick))|ARM Cortex-A53\1 core@1.4GHz with 1GB RAM|1653.2|
+| **Edge compute node with an Intel® CPU:** Ubutu 18.0.4 on Virtual Machine|Core i7 9th Gen
+2 cores@2.6GHz with 4GB RAM|35.8|
+|**Edge compute node Raspberry PI 4 with Intel® NCS 2 on USB3 port** ([Intel Neural Compute Stick 2](https://software.intel.com/en-us/neural-compute-stick))|ARM Cortex-A72
+4 cores@1.5GHz with 4GB RAM|765|
+|**Edge compute node Raspberry PI 4 with Intel® NCS 2 on USB2 port** ([Intel Neural Compute Stick 2](https://software.intel.com/en-us/neural-compute-stick))|ARM Cortex-A72
+4 cores@1.5GHz with 4GB RAM|828|
+|**Edge compute node Raspberry PI 3B+ with Intel® NCS 2** ([Intel Neural Compute Stick 2](https://software.intel.com/en-us/neural-compute-stick))|ARM Cortex-A53
+1 core@1.4GHz with 1GB RAM|1653.2|
 
 ## Geometric heuristics used for pose personalization and correction
 The input to our application is a camera stream of the user doing a Yoga pose. The application output is a personalized target pose that considers the user's height, weight, etc. 
