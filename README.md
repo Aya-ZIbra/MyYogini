@@ -173,16 +173,12 @@ The data shows clearly that the Core i7 9th is about 20 times faster than the Ra
 The Raspberry PI 3B+ with Intel NCS2 is even slower. 
 This means that the hardware resource is very important at the edge devices especially in the embedded application world where the Intel high end family may not be the right candidates in terms of the system cost. The optimisation of the algorithm, model handling and the input pre-processing are more critical and requires the special design by developer.
 
-|Device  |Hardware Specification|Inference time (ms) |
-| ------------- | ------------- |------------- |
-| **Edge compute node with an Intel® CPU:** Ubutu 18.0.4 on Virtual Machine|Core i7 9th Gen
-2 cores@2.6GHz with 4GB RAM|35.8|
-|**Edge compute node Raspberry PI 4 with Intel® NCS 2 on USB3 port** ([Intel Neural Compute Stick 2](https://software.intel.com/en-us/neural-compute-stick))|ARM Cortex-A72
-4 cores@1.5GHz with 4GB RAM|765|
-|**Edge compute node Raspberry PI 4 with Intel® NCS 2 on USB2 port** ([Intel Neural Compute Stick 2](https://software.intel.com/en-us/neural-compute-stick))|ARM Cortex-A72
-4 cores@1.5GHz with 4GB RAM|828|
-|**Edge compute node Raspberry PI 3B+ with Intel® NCS 2** ([Intel Neural Compute Stick 2](https://software.intel.com/en-us/neural-compute-stick))|ARM Cortex-A53
-1 core@1.4GHz with 1GB RAM|1653.2|
+|Edge Device  |CPU Core Type |Edge Specification|Inference time (ms) |
+| ------------- | ------------- |------------- |------------- |
+|Case 1: **Edge compute node with an Intel® CPU:** Ubutu 18.0.4 on Virtual Machine|Core i7 9th Gen|2 cores@2.6GHz with 4GB RAM|35.8|
+|Case 2: **Edge compute node Raspberry PI 4 with Intel® NCS 2 on USB3 port** ([Intel Neural Compute Stick 2](https://software.intel.com/en-us/neural-compute-stick))|ARM Cortex-A72 + Movidius|4 cores@1.5GHz with 4GB RAM|765|
+|Case 3: **Edge compute node Raspberry PI 4 with Intel® NCS 2 on USB2 port** ([Intel Neural Compute Stick 2](https://software.intel.com/en-us/neural-compute-stick))|ARM Cortex-A72 + Movidius|4 cores@1.5GHz with 4GB RAM|828|
+|Case 4:**Edge compute node Raspberry PI 3B+ with Intel® NCS 2** ([Intel Neural Compute Stick 2](https://software.intel.com/en-us/neural-compute-stick))|ARM Cortex-A53 + Movidius|1 core@1.4GHz with 1GB RAM|1653.2|
 
 ## Geometric heuristics used for pose personalization and correction
 The input to our application is a camera stream of the user doing a Yoga pose. The application output is a personalized target pose that considers the user's height, weight, etc. 
