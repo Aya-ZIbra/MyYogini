@@ -68,18 +68,18 @@ A run script along with all needed files is available at the demo directory. Mak
 The output image/video is found at:  **demo/output/warrior1.**
 
 ## Building the Project [To be verified]
-# For windows and linux: 
+### For windows and linux: 
 1. Run build_windows.bat file for windows / build_linux.sh on linux platform.
 2. A build folder will be created inside the main project directory.
 3. Locate the my_yogini.exe at .\build\intel64\Release
 
-# For Raspberry PI and Intel NCS2
-Validated Hardware
+### For Raspberry PI and Intel NCS2
+#### Validated Hardware
 
 1.	Raspberry Pi* 3B+ or Pi 4B board with ARM* ARMv7-A CPU architecture. (Check that uname -m returns armv7l.)
 2.	Intel® Movidius™ Neural Compute Stick: Intel® Neural Compute Stick 2
 
-Build steps for PI 4 with Intel NCS2
+#### Build steps for PI 4 with Intel NCS2
 
 1.	Install OpenVINO™ toolkit for Raspbian* OS by following the link below
 https://docs.openvinotoolkit.org/latest/_docs_install_guides_installing_openvino_raspbian.html#install-package
@@ -104,7 +104,7 @@ pi@raspberrypi:~/ncs2/MyYogini-master/build $ cp -avr ~/ncs2/MyYogini-master/my_
 
 pi@raspberrypi:~/ncs2/MyYogini-master/build $ ./armv7l/Release/my_yogini -i ./my_yogini/from_Chris/AI-Yogini-Project/badWarrior11.jpg -c ./my_yogini/from_Chris/AI-Yogini-Project/GoodWarrior1flipped.jpg -m ~/ncs2/MyYogini-master/models/human-pose-estimation-0001/FP16/human-pose-estimation-0001.xml -d MYRIAD -o core -no_show -r
 
-For Rasperry PI 3B+ -- Special Steps
+#### For Rasperry PI 3B+ -- Special Steps
 
 1.	The “build” folder needs to be created outside the source code directory.
 Assume that the source directory is /home/pi/ncs2/MyYogini-master:
@@ -167,13 +167,18 @@ mkdir -p output/warrior1
 |**Edge compute node with Intel® Core CPU and using the onboard Intel® GPU:** Intel® HD Graphics 530 card integrated with the CPU|3271.6|
 |**Edge compute node with [UP Squared Grove IoT Development Kit](https://software.intel.com/en-us/iot/hardware/up-squared-grove-dev-kit)**|17865|
 
-### Performance verified on the real edge compute nodes [RaspberryPI + NCS2]: 
+### Performance Comparsion on the real edge compute nodes [Core i7 9th Gen vs Raspberry PI + NCS2]: 
+The following table lists the inference time performance cross the different hardware platform. 
+The data shows clearly that the Core i7 9th is about 20 times faster than the Raspberry PI 4 + NCS2 combination. 
+The Raspberry PI 3B+ with Intel NCS2 is even slower. 
+This means that the hardware resource is very important at the edge devices especially in the embedded application world where the Intel high end family may not be the right candidates in terms of the system cost. The optimisation of the algorithm, model handling and the input pre-processing are more critical and requires the special design by developer.
 
-|Device  | Inference time (ms) |
-| ------------- | ------------- |
-| **Edge compute node with an Intel® CPU:** [Core i7 9th Gen Ubutu 18.0.4 on VM]| 35.8|
-|**Edge compute node Raspberry PI 4 with Intel® NCS 2** ([Intel Neural Compute Stick 2](https://software.intel.com/en-us/neural-compute-stick))|765|
-|**Edge compute node Raspberry PI 3B+ with Intel® NCS 2** ([Intel Neural Compute Stick 2]|1653.2|
+|Device  |Hardware Specification|Inference time (ms) |
+| ------------- | ------------- |------------- |
+| **Edge compute node with an Intel® CPU:** Ubutu 18.0.4 on Virtual Machine|Core i7 9th Gen;2 cores@2.6GHz with 4GB RAM|35.8|
+|**Edge compute node Raspberry PI 4 with Intel® NCS 2 on USB3 port** ([Intel Neural Compute Stick 2](https://software.intel.com/en-us/neural-compute-stick))|ARM Cortex-A72    4 cores@1.5GHz with 4GB RAM|765|
+|**Edge compute node Raspberry PI 4 with Intel® NCS 2 on USB2 port** ([Intel Neural Compute Stick 2](https://software.intel.com/en-us/neural-compute-stick))|ARM Cortex-A72    4 cores@1.5GHz with 4GB RAM|828|
+|**Edge compute node Raspberry PI 3B+ with Intel® NCS 2** ([Intel Neural Compute Stick 2](https://software.intel.com/en-us/neural-compute-stick))|ARM Cortex-A53    1 core@1.4GHz with 1GB RAM|1653.2|
 
 ## Geometric heuristics used for pose personalization and correction
 The input to our application is a camera stream of the user doing a Yoga pose. The application output is a personalized target pose that considers the user's height, weight, etc. 
