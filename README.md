@@ -267,6 +267,10 @@ Click the Home icon to load the mock UI - all features are not enabled so watch 
 The video below better illustrates the use of the UI:
 
 ![](https://github.com/Aya-ZIbra/MyYogini/blob/master/resources/MockUI_clip.gif?raw=true)
+
+Here is an example of other poses and what the user would see:
+
+![](https://github.com/Aya-ZIbra/MyYogini/blob/master/resources/collage.jpg?raw=true)
  
 ## Future work
 ### More personalized target pose
